@@ -1,20 +1,14 @@
+// Importa o pacote principal do Flutter, que contém os widgets e
+// ferramentas necessárias para criar interfaces gráficas.
 import 'package:flutter/material.dart';
 
+// Importa o arquivo 'app.dart', onde provavelmente está definida
+// a classe MainApp, que representa o aplicativo principal.
+import 'app.dart';
+
+// Função principal do aplicativo Flutter.
 void main() {
+   // Executa o aplicativo chamando o widget principal (MainApp).
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
-}
