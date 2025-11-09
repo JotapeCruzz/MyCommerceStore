@@ -1,6 +1,7 @@
 import 'package:ecommerce_my_store/colors.dart';
 import 'package:ecommerce_my_store/widgets/login_field.dart';
 import 'package:ecommerce_my_store/widgets/social_button.dart';
+import 'package:ecommerce_my_store/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
 
@@ -50,6 +51,8 @@ class LoginScreen extends StatelessWidget {
               LoginField(labelText: 'Email',),
               SizedBox(height: 15),
               LoginField(labelText: 'Password', isPassword: true,),
+              SizedBox(height: 20),
+              SubmitButton(buttonText: 'Login',),
               SizedBox(height: 20),
             ],
           ),
