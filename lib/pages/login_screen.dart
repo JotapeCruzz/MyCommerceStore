@@ -14,6 +14,9 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Palette.kSecondaryColor,
         title: Text('Login'),
+        actions: [SubmitButton(buttonText: 'Register', size: [200, 55], onPressed: () {
+                    Navigator.pushNamed(context, Routes.register);
+                  },),],
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -42,27 +45,17 @@ class LoginScreen extends StatelessWidget {
               SocialButton(
                 assetName: 'meta_logo', 
                 buttonText: 'Login with Meta', 
-                horizontalPadding: 126,
+                horizontalPadding: 78,
                 onPressed: () {},
               ),
               SizedBox(height: 15),
               Text('or', style: TextStyle(fontSize: 17, color: Palette.kSecondaryColor),),
               SizedBox(height: 15),
-              LoginField(labelText: 'Email', boxWidth: 410,),
+              LoginField(labelText: 'Email',),
               SizedBox(height: 15),
-              LoginField(labelText: 'Password', isPassword: true, boxWidth: 410,),
+              LoginField(labelText: 'Password', isPassword: true,),
               SizedBox(height: 20),
-              Row(
-                spacing: 10,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SubmitButton(buttonText: 'Login', size: [200, 55],),
-                  SubmitButton(buttonText: 'Register', size: [200, 55], onPressed: () {
-                    Navigator.pushNamed(context, Routes.register);
-                  },),
-                ],
-              ),
+              SubmitButton(buttonText: 'Login'),
               SizedBox(height: 20),
             ],
           ),
