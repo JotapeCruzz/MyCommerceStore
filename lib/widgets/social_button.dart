@@ -13,7 +13,7 @@ class SocialButton extends StatelessWidget {
     required this.assetName,
     required this.buttonText,
     required this.onPressed,
-    this.horizontalPadding = 70,
+    this.horizontalPadding = 118,
   });
 
   @override

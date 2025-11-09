@@ -2,8 +2,10 @@ import 'package:ecommerce_my_store/colors.dart';
 import 'package:flutter/material.dart';
 
 class SubmitButton extends StatelessWidget {
+  final void Function()? onPressed;
   final String buttonText;
-  const SubmitButton({super.key, required this.buttonText});
+  final List<double> size;
+  const SubmitButton({super.key, required this.buttonText, this.size = const [200, 55], this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +19,9 @@ class SubmitButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          fixedSize: const Size(360, 55),
+          fixedSize: Size(size[0], size[1]),
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
