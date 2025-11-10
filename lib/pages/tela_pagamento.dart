@@ -81,7 +81,7 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
                     ),
                   ),
                   Image.asset(
-                    'assets/images/logo.png',
+                    'assets/images/e_logo.png',
                     height: 40,
                   ),
                 ],
