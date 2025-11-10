@@ -1,4 +1,5 @@
 import 'package:ecommerce_my_store/colors.dart';
+import 'package:ecommerce_my_store/services/auth_service.dart';
 import 'package:ecommerce_my_store/validation/validation.dart';
 import 'package:ecommerce_my_store/widgets/login_field.dart';
 import 'package:ecommerce_my_store/widgets/submit_button.dart';
@@ -14,6 +15,7 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController _pwdConfirmController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -93,14 +95,21 @@ class RegisterScreen extends StatelessWidget {
           ),
         ),
       ),
-        floatingActionButton: const SupportButton(), //Adicionando o botão de suporte nesta tela
-
+      floatingActionButton:
+          const SupportButton(), //Adicionando o botão de suporte nesta tela
     );
   }
 
   onPressedRegisterButton() {
+    String pwd = _passwordController.text;
+    String email = _emailController.text;
+    String name = _nameController.text;
     if (_formKey.currentState!.validate()) {
-      print("Validado com sucesso");
+      _authService.userRegister(
+        email: email,
+        password: pwd,
+        name: name,
+      );
     } else {
       print("Erro na validação");
     }

@@ -56,34 +56,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Center(
                           child: Text(
                             'Logo',
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                     ),
                   ),
-
-                  // social
-                  // SocialButton(
-                  //   assetName: 'google_logo',
-                  //   buttonText: 'Entrar com Google',
-                  //   onPressed: () => _showSnack('Login social em breve'),
-                  // ),
-                  // const SizedBox(height: 12),
-                  // SocialButton(
-                  //   assetName: 'meta_logo',
-                  //   buttonText: 'Entrar com Meta',
-                  //   horizontalPadding: 78,
-                  //   onPressed: () => _showSnack('Login social em breve'),
-                  // ),
-
-                  const SizedBox(height: 16),
-                  Text(
-                    'ou entre com seu e-mail',
-                    style: theme.textTheme.bodyMedium!
-                        .copyWith(color: theme.colorScheme.primary),
-                  ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 10),
 
                   // e-mail
                   LoginField(
@@ -91,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     validator: validateEmail,
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 15),
 
                   // senha
                   LoginField(
@@ -101,13 +80,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: validatePassword,
                   ),
 
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
                   SubmitButton(
                     buttonText: 'Entrar',
                     onPressed: _onPressedLoginButton,
                   ),
 
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
+
                   TextButton(
                     onPressed: () =>
                         Navigator.pushNamed(context, Routes.register),
@@ -115,20 +95,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       'Ainda não tem conta? Registre-se',
                       style: theme.textTheme.bodyMedium!.copyWith(
                         color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
+                  SizedBox(height: 10),
 
-              
-                  Row(
+                  Column(
                     children: [
                       SocialButton(
                         assetName: 'google_logo',
                         buttonText: 'Entrar com Google',
                         onPressed: () => _showSnack('Login social em breve'),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 15),
                       SocialButton(
                         assetName: 'meta_logo',
                         buttonText: 'Entrar com Meta',
@@ -138,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 20),
                 ],
               ),
             ),
@@ -151,7 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void _onPressedLoginButton() {
     if (_formKey.currentState!.validate()) {
       _showSnack('Login validado com sucesso!');
-      // TODO: chamar auth real aqui
     } else {
       _showSnack('Verifique os campos e tente novamente.', isError: true);
     }
