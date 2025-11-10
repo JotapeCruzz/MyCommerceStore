@@ -5,6 +5,7 @@ import 'package:ecommerce_my_store/widgets/login_field.dart';
 import 'package:ecommerce_my_store/widgets/social_button.dart';
 import 'package:ecommerce_my_store/widgets/submit_button.dart';
 import 'package:ecommerce_my_store/widgets/support_button.dart';
+import 'package:ecommerce_my_store/widgets/snackbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -106,14 +107,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       SocialButton(
                         assetName: 'google_logo',
                         buttonText: 'Entrar com Google',
-                        onPressed: () => _showSnack('Login social em breve'),
+                        onPressed: () => showSnack(context: context, message: 'Login social em breve'),
                       ),
                       SizedBox(height: 15),
                       SocialButton(
                         assetName: 'meta_logo',
                         buttonText: 'Entrar com Meta',
                         horizontalPadding: 78,
-                        onPressed: () => _showSnack('Login social em breve'),
+                        onPressed: () => showSnack(context: context, message: 'Login social em breve'),
                       ),
                     ],
                   ),
@@ -130,19 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _onPressedLoginButton() {
     if (_formKey.currentState!.validate()) {
-      _showSnack('Login validado com sucesso!');
+      showSnack(context: context, message: 'Login validado com sucesso!');
     } else {
-      _showSnack('Verifique os campos e tente novamente.', isError: true);
+      showSnack(context: context, message: 'Verifique os campos e tente novamente.', isError: true);
     }
-  }
-
-  void _showSnack(String msg, {bool isError = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(msg),
-        backgroundColor:
-            isError ? Colors.red : Theme.of(context).colorScheme.primary,
-      ),
-    );
   }
 }
