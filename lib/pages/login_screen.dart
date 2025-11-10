@@ -26,6 +26,14 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  void _onPressedLoginButton() {
+    if (_formKey.currentState!.validate()) {
+      showSnack(context: context, message: 'Login validado com sucesso!');
+    } else {
+      showSnack(context: context, message: 'Verifique os campos e tente novamente.', isError: true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -127,13 +135,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  void _onPressedLoginButton() {
-    if (_formKey.currentState!.validate()) {
-      showSnack(context: context, message: 'Login validado com sucesso!');
-    } else {
-      showSnack(context: context, message: 'Verifique os campos e tente novamente.', isError: true);
-    }
   }
 }
