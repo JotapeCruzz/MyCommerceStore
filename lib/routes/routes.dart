@@ -6,7 +6,8 @@ import 'package:ecommerce_my_store/pages/login_screen.dart';
 import 'package:ecommerce_my_store/pages/register_screen.dart';
 import 'package:ecommerce_my_store/pages/support_screen.dart';
 import 'package:ecommerce_my_store/pages/product_register.dart';
-
+import 'package:ecommerce_my_store/pages/tela_carrinho.dart';
+import 'package:ecommerce_my_store/pages/tela_pagamento.dart';
 
 // Classe responsável por centralizar e gerenciar todas as rotas do aplicativo.
 // Isso ajuda a manter a navegação organizada e fácil de manter.
@@ -15,7 +16,9 @@ class Routes {
   static const String login = '/login';
   static const String register = '/register';
   static const String support = '/support'; 
-  static const String productRegister = '/productRegister'; 
+  static const String productRegister = '/productRegister';
+  static const String cart = '/cart';
+  static const String pagamento = '/pagamento';
 
 
   // Mapa de rotas do aplicativo: associa um nome de rota (String)
@@ -26,5 +29,7 @@ class Routes {
     register: (context) => RegisterScreen(),
     support: (context) => const SupportScreen(),
     productRegister: (context) => const ProductRegisterScreen(),
+    cart: (context) => const CartScreen(), // mapeei a rota do carrinho
+    pagamento: (context) => const PagamentoScreen(),
   };
 }
