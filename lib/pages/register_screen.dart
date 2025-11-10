@@ -2,6 +2,7 @@ import 'package:ecommerce_my_store/colors.dart';
 import 'package:ecommerce_my_store/services/auth_service.dart';
 import 'package:ecommerce_my_store/validation/validation.dart';
 import 'package:ecommerce_my_store/widgets/login_field.dart';
+import 'package:ecommerce_my_store/widgets/snackbar.dart';
 import 'package:ecommerce_my_store/widgets/submit_button.dart';
 import 'package:ecommerce_my_store/widgets/support_button.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class RegisterScreen extends StatelessWidget {
                   buttonText: 'Registrar',
                   size: [360, 55],
                   onPressed: () {
-                    onPressedRegisterButton();
+                    onPressedRegisterButton(context);
                   },
                 ),
                 SizedBox(height: 10),
@@ -100,16 +101,26 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  onPressedRegisterButton() {
+  onPressedRegisterButton(context) {
     String pwd = _passwordController.text;
     String email = _emailController.text;
     String name = _nameController.text;
     if (_formKey.currentState!.validate()) {
-      _authService.userRegister(
-        email: email,
-        password: pwd,
-        name: name,
-      );
+      _authService.userRegister(email: email, password: pwd, name: name).then((
+        String? error,
+      ) {
+        //Voltou com erro
+        if (error != null) {
+          showSnack(context: context, message: error, isError: true);
+        }
+        //Deu certo
+        else {
+          showSnack(
+            context: context,
+            message: "Usuário registrado com sucesso!",
+          );
+        }
+      });
     } else {
       print("Erro na validação");
     }
