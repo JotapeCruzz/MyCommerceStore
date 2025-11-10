@@ -42,6 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: const Text("Register"),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.cart);
+                  },
+                  child: const Text("Carrinho"),
+                ),
+              ),
             ],
           ),
         ],
