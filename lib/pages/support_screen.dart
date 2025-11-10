@@ -27,8 +27,8 @@ class SupportScreen extends StatefulWidget {
 }
 
 class _SupportScreenState extends State<SupportScreen> {
-  final _formKey = GlobalKey<FormState>(); // uso isso pra validar o form
-  final _controller = SupportController();  // guardo os dados aqui
+  final _formKey = GlobalKey<FormState>(); // uso isso pra validar o form de uma vez
+  final _controller = SupportController();  // guarda os dados 
 
   // controladores dos campos de texto
   final _nameCtrl = TextEditingController();
@@ -36,7 +36,7 @@ class _SupportScreenState extends State<SupportScreen> {
   final _msgCtrl = TextEditingController();
 
   @override
-  void dispose() {
+  void dispose() { //libera os controladores para evitar consumo desnecessário
     // limpando tudo quando a tela fechar
     _nameCtrl.dispose();
     _emailCtrl.dispose();
