@@ -2,6 +2,7 @@ import 'package:ecommerce_my_store/colors.dart';
 import 'package:ecommerce_my_store/validation/validation.dart';
 import 'package:ecommerce_my_store/widgets/login_field.dart';
 import 'package:ecommerce_my_store/widgets/submit_button.dart';
+import 'package:ecommerce_my_store/widgets/support_button.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
 
@@ -83,6 +84,8 @@ class RegisterScreen extends StatelessWidget {
           ),
         ),
       ),
+        floatingActionButton: const SupportButton(), //Adicionando o botão de suporte nesta tela
+
     );
   }
 

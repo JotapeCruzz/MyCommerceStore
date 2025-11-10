@@ -16,7 +16,7 @@ class MainApp extends StatelessWidget {
       title: 'MyStore',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Palette.backgroundColor,
+        scaffoldBackgroundColor: const Color.fromARGB(255, 22, 63, 151),
       ),
        // Define o mapa de rotas (telas) do aplicativo
       routes: Routes.routeMaps,
