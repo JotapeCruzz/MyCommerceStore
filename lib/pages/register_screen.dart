@@ -8,6 +8,11 @@ import 'package:ecommerce_my_store/routes/routes.dart';
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _pwdConfirmController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,23 +42,27 @@ class RegisterScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 LoginField(
                   labelText: 'Insira um nome',
+                  controller: _nameController,
                   validator: (String? value) => validateNickname(value),
                 ),
                 SizedBox(height: 15),
                 LoginField(
                   labelText: 'E-mail',
+                  controller: _emailController,
                   validator: (String? value) => validateEmail(value),
                 ),
                 SizedBox(height: 15),
                 LoginField(
                   labelText: 'Senha',
                   isPassword: true,
+                  controller: _passwordController,
                   validator: (String? value) => validatePassword(value),
                 ),
                 SizedBox(height: 15),
                 LoginField(
                   labelText: 'Confirme a senha',
                   isPassword: true,
+                  controller: _pwdConfirmController,
                   validator: (String? value) => validatePwdConfirmation(value),
                 ),
                 SizedBox(height: 20),

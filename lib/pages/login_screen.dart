@@ -9,6 +9,8 @@ import 'package:ecommerce_my_store/routes/routes.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 15),
                 LoginField(
                   labelText: 'E-mail',
+                  controller: _emailController,
                   validator: (String? value) {
                     return validateEmail(value);
                   },
@@ -69,6 +72,7 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 15),
                 LoginField(
                   labelText: 'Senha',
+                  controller: _passwordController,
                   isPassword: true,
                   validator: (String? value) {
                     return validatePassword(value);
