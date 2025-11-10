@@ -1,121 +1,169 @@
-import 'package:ecommerce_my_store/colors.dart';
+import 'package:flutter/material.dart';
+import 'package:ecommerce_my_store/routes/routes.dart';
 import 'package:ecommerce_my_store/validation/validation.dart';
 import 'package:ecommerce_my_store/widgets/login_field.dart';
 import 'package:ecommerce_my_store/widgets/social_button.dart';
 import 'package:ecommerce_my_store/widgets/submit_button.dart';
 import 'package:ecommerce_my_store/widgets/support_button.dart';
-import 'package:flutter/material.dart';
-import 'package:ecommerce_my_store/routes/routes.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Palette.kSecondaryColor,
-        title: Text('Login'),
+        title: const Text('Entrar'),
       ),
+      floatingActionButton: const SupportButton(), // suporte fixo
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Center(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Image.asset(
-                    'assets/images/e_logo.png',
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      color: Colors.white,
-                      child: Text(
-                        'Error loading image',
-                        style: TextStyle(color: Colors.red),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 420),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  // logo
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: 16),
+                    child: Image.asset(
+                      'assets/images/e_logo.png',
+                      width: 120,
+                      height: 120,
+                      errorBuilder: (_, __, ___) => const SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: Center(
+                          child: Text(
+                            'Logo',
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                        ),
                       ),
                     ),
-                    width: 120,
-                    height: 120,
                   ),
-                ),
-                SizedBox(height: 20),
-                SocialButton(
-                  assetName: 'google_logo',
-                  buttonText: 'Login with Google',
-                  onPressed: () {},
-                ),
-                SizedBox(height: 20),
-                SocialButton(
-                  assetName: 'meta_logo',
-                  buttonText: 'Login with Meta',
-                  horizontalPadding: 78,
-                  onPressed: () {},
-                ),
-                SizedBox(height: 15),
-                Text(
-                  'or',
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Palette.kSecondaryColor,
+
+                  // social
+                  // SocialButton(
+                  //   assetName: 'google_logo',
+                  //   buttonText: 'Entrar com Google',
+                  //   onPressed: () => _showSnack('Login social em breve'),
+                  // ),
+                  // const SizedBox(height: 12),
+                  // SocialButton(
+                  //   assetName: 'meta_logo',
+                  //   buttonText: 'Entrar com Meta',
+                  //   horizontalPadding: 78,
+                  //   onPressed: () => _showSnack('Login social em breve'),
+                  // ),
+
+                  const SizedBox(height: 16),
+                  Text(
+                    'ou entre com seu e-mail',
+                    style: theme.textTheme.bodyMedium!
+                        .copyWith(color: theme.colorScheme.primary),
                   ),
-                ),
-                SizedBox(height: 15),
-                LoginField(
-                  labelText: 'E-mail',
-                  controller: _emailController,
-                  validator: (String? value) {
-                    return validateEmail(value);
-                  },
-                ),
-                SizedBox(height: 15),
-                LoginField(
-                  labelText: 'Senha',
-                  controller: _passwordController,
-                  isPassword: true,
-                  validator: (String? value) {
-                    return validatePassword(value);
-                  },
-                ),
-                SizedBox(height: 20),
-                SubmitButton(
-                  buttonText: 'Entrar',
-                  onPressed: () {
-                    onPressedLoginButton();
-                  },
-                ),
-                SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.register);
-                  },
-                  child: Text(
-                    "Ainda não tem uma conta? Registre-se aqui!",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Palette.kSecondaryColor,
+                  const SizedBox(height: 16),
+
+                  // e-mail
+                  LoginField(
+                    labelText: 'E-mail',
+                    controller: _emailController,
+                    validator: validateEmail,
+                  ),
+                  const SizedBox(height: 12),
+
+                  // senha
+                  LoginField(
+                    labelText: 'Senha',
+                    controller: _passwordController,
+                    isPassword: true,
+                    validator: validatePassword,
+                  ),
+
+                  const SizedBox(height: 20),
+                  SubmitButton(
+                    buttonText: 'Entrar',
+                    onPressed: _onPressedLoginButton,
+                  ),
+
+                  const SizedBox(height: 10),
+                  TextButton(
+                    onPressed: () =>
+                        Navigator.pushNamed(context, Routes.register),
+                    child: Text(
+                      'Ainda não tem conta? Registre-se',
+                      style: theme.textTheme.bodyMedium!.copyWith(
+                        color: theme.colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-              ],
+
+              
+                  Row(
+                    children: [
+                      SocialButton(
+                        assetName: 'google_logo',
+                        buttonText: 'Entrar com Google',
+                        onPressed: () => _showSnack('Login social em breve'),
+                      ),
+                      const SizedBox(height: 12),
+                      SocialButton(
+                        assetName: 'meta_logo',
+                        buttonText: 'Entrar com Meta',
+                        horizontalPadding: 78,
+                        onPressed: () => _showSnack('Login social em breve'),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 24),
+                ],
+              ),
             ),
           ),
         ),
       ),
-
-      floatingActionButton: const SupportButton(), //Adicionando o botão de suporte nesta tela
-
     );
   }
 
-  onPressedLoginButton() {
+  void _onPressedLoginButton() {
     if (_formKey.currentState!.validate()) {
-      print("Validado com sucesso");
+      _showSnack('Login validado com sucesso!');
+      // TODO: chamar auth real aqui
     } else {
-      print("Erro na validação");
+      _showSnack('Verifique os campos e tente novamente.', isError: true);
     }
+  }
+
+  void _showSnack(String msg, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor:
+            isError ? Colors.red : Theme.of(context).colorScheme.primary,
+      ),
+    );
   }
 }
