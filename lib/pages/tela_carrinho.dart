@@ -94,7 +94,7 @@ class CartScreen extends StatelessWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFA9CBF9)),
                     onPressed: cart.items.isEmpty ? null : () {
-                      Navigator.of(context).pushNamed(Routes.pagamento); // Using Routes constant instead of hardcoded string
+                      Navigator.of(context).pushNamed(Routes.pagamento); // usando rotas
                     },
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 12),
@@ -107,6 +107,7 @@ class CartScreen extends StatelessWidget {
           ),
         ],
       ),
+      // bottombar com navigator
       bottomNavigationBar: BottomAppBar(
         child: SizedBox(
           height: 56,
