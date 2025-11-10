@@ -15,7 +15,7 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFF574D4F),
         title: Image.asset(
-          'assets/images/logo.png',
+          'assets/images/e_logo.png',
           height: 40,
         ),
         centerTitle: true,
