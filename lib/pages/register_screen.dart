@@ -1,6 +1,8 @@
 import 'package:ecommerce_my_store/colors.dart';
+import 'package:ecommerce_my_store/services/auth_service.dart';
 import 'package:ecommerce_my_store/validation/validation.dart';
 import 'package:ecommerce_my_store/widgets/login_field.dart';
+import 'package:ecommerce_my_store/widgets/snackbar.dart';
 import 'package:ecommerce_my_store/widgets/submit_button.dart';
 import 'package:ecommerce_my_store/widgets/support_button.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +11,12 @@ import 'package:ecommerce_my_store/routes/routes.dart';
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _pwdConfirmController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -38,23 +46,27 @@ class RegisterScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 LoginField(
                   labelText: 'Insira um nome',
+                  controller: _nameController,
                   validator: (String? value) => validateNickname(value),
                 ),
                 SizedBox(height: 15),
                 LoginField(
                   labelText: 'E-mail',
+                  controller: _emailController,
                   validator: (String? value) => validateEmail(value),
                 ),
                 SizedBox(height: 15),
                 LoginField(
                   labelText: 'Senha',
                   isPassword: true,
+                  controller: _passwordController,
                   validator: (String? value) => validatePassword(value),
                 ),
                 SizedBox(height: 15),
                 LoginField(
                   labelText: 'Confirme a senha',
                   isPassword: true,
+                  controller: _pwdConfirmController,
                   validator: (String? value) => validatePwdConfirmation(value),
                 ),
                 SizedBox(height: 20),
@@ -62,7 +74,7 @@ class RegisterScreen extends StatelessWidget {
                   buttonText: 'Registrar',
                   size: [360, 55],
                   onPressed: () {
-                    onPressedRegisterButton();
+                    onPressedRegisterButton(context);
                   },
                 ),
                 SizedBox(height: 10),
@@ -84,14 +96,31 @@ class RegisterScreen extends StatelessWidget {
           ),
         ),
       ),
-        floatingActionButton: const SupportButton(), //Adicionando o botão de suporte nesta tela
-
+      floatingActionButton:
+          const SupportButton(), //Adicionando o botão de suporte nesta tela
     );
   }
 
-  onPressedRegisterButton() {
+  onPressedRegisterButton(context) {
+    String pwd = _passwordController.text;
+    String email = _emailController.text;
+    String name = _nameController.text;
     if (_formKey.currentState!.validate()) {
-      print("Validado com sucesso");
+      _authService.userRegister(email: email, password: pwd, name: name).then((
+        String? error,
+      ) {
+        //Voltou com erro
+        if (error != null) {
+          showSnack(context: context, message: error, isError: true);
+        }
+        //Deu certo
+        else {
+          showSnack(
+            context: context,
+            message: "Usuário registrado com sucesso!",
+          );
+        }
+      });
     } else {
       print("Erro na validação");
     }

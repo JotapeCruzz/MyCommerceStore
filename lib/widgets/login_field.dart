@@ -6,6 +6,7 @@ class LoginField extends StatelessWidget {
   final double boxWidth;
   final String labelText;
   final bool isPassword;
+  final TextEditingController? controller;
 
   const LoginField({
     super.key,
@@ -13,6 +14,7 @@ class LoginField extends StatelessWidget {
     this.isPassword = false,
     this.boxWidth = 350,
     this.validator,
+    this.controller,
   });
 
   @override
@@ -20,6 +22,7 @@ class LoginField extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: boxWidth),
       child: TextFormField(
+        controller: controller,
         style: TextStyle(color: Palette.kSecondaryColor),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(27),
