@@ -1,3 +1,4 @@
+import 'package:ecommerce_my_store/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 // controlador bem simples pra guardar os dados do form
@@ -191,6 +192,20 @@ class _SupportScreenState extends State<SupportScreen> {
                         },
                   child: const Text('Enviar'),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 24), //adicionar espaço entre o botão e o texto
+                child: Center( // centraliza o texto
+                  child: TextButton(
+                    onPressed: () => Navigator.pushNamed(context, Routes.faq), // navega para a tela de FAQ
+                      child:  Text('Perguntas Frequentes',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith( // estilização do texto
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,),
+                  ),
+                )
+                )
               ),
             ],
           ),

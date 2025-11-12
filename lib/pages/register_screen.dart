@@ -96,8 +96,6 @@ class RegisterScreen extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton:
-          const SupportButton(), //Adicionando o botão de suporte nesta tela
     );
   }
 

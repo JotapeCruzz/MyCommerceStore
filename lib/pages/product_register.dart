@@ -1,5 +1,5 @@
+import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerce_my_store/widgets/support_button.dart';
 
 // controlador pra guardar os dados do produto
 class ProductRegisterController extends ChangeNotifier {
@@ -56,10 +56,8 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
       appBar: AppBar(
         title: const Text('Cadastrar Produto'),
         backgroundColor: Colors.blue,
+        
       ),
-
-      // botão de suporte
-      floatingActionButton: const SupportButton(),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -216,12 +214,20 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
 
                           Navigator.pop(context);
                         },
+                        
                 ),
               ),
             ],
           ),
         ),
       ),
+
+      // Barra de navegação inferior personalizada
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 4),
+
+
     );
+    
+    
   }
 }

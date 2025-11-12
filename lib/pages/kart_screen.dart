@@ -1,7 +1,10 @@
+import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
 import '../routes/routes.dart';
+import 'package:ecommerce_my_store/colors.dart';
+
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -13,11 +16,8 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF574D4F),
-        title: Image.asset(
-          'assets/images/e_logo.png',
-          height: 40,
-        ),
+        backgroundColor: Palette.appBarColor, //---------------
+        title: Image.asset('assets/images/e_logo.png', height: 40),
         centerTitle: true,
         elevation: 0,
       ),
@@ -43,7 +43,9 @@ class CartScreen extends StatelessWidget {
                                 )
                               : const SizedBox(width: 56, height: 56),
                           title: Text(item.title),
-                          subtitle: Text('R\$ ${item.price.toStringAsFixed(2)}'),
+                          subtitle: Text(
+                            'R\$ ${item.price.toStringAsFixed(2)}',
+                          ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -51,7 +53,10 @@ class CartScreen extends StatelessWidget {
                                 icon: const Icon(Icons.remove),
                                 onPressed: () {
                                   final newQty = item.quantity - 1;
-                                  context.read<CartProvider>().updateQuantity(item.id, newQty);
+                                  context.read<CartProvider>().updateQuantity(
+                                    item.id,
+                                    newQty,
+                                  );
                                 },
                               ),
                               Text('${item.quantity}'),
@@ -59,13 +64,18 @@ class CartScreen extends StatelessWidget {
                                 icon: const Icon(Icons.add),
                                 onPressed: () {
                                   final newQty = item.quantity + 1;
-                                  context.read<CartProvider>().updateQuantity(item.id, newQty);
+                                  context.read<CartProvider>().updateQuantity(
+                                    item.id,
+                                    newQty,
+                                  );
                                 },
                               ),
                               IconButton(
                                 icon: const Icon(Icons.delete_outline),
                                 onPressed: () {
-                                  context.read<CartProvider>().removeItem(item.id);
+                                  context.read<CartProvider>().removeItem(
+                                    item.id,
+                                  );
                                 },
                               ),
                             ],
@@ -84,18 +94,36 @@ class CartScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Total', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text('R\$ ${cart.total.toStringAsFixed(2)}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Total',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'R\$ ${cart.total.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFA9CBF9)),
-                    onPressed: cart.items.isEmpty ? null : () {
-                      Navigator.of(context).pushNamed(Routes.pagamento); // usando rotas
-                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFA9CBF9),
+                    ),
+                    onPressed: cart.items.isEmpty
+                        ? null
+                        : () {
+                            Navigator.of(
+                              context,
+                            ).pushNamed(Routes.pagamento); // usando rotas
+                          },
                     child: const Padding(
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: Text('Pagar'),
@@ -107,33 +135,9 @@ class CartScreen extends StatelessWidget {
           ),
         ],
       ),
-      // bottombar com navigator
-      bottomNavigationBar: BottomAppBar(
-        child: SizedBox(
-          height: 56,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(Icons.chat_bubble_outline),
-              const Icon(Icons.person_outline),
-              IconButton(
-                icon: const Icon(Icons.shopping_cart_outlined),
-                onPressed: () {
-                  // usa rota nomeada se você tiver definida em routes.dart:
-                  if (Navigator.canPop(context)) {
-                    // evitar empilhar várias telas iguais; você pode ajustar conforme desejar
-                    Navigator.pushNamed(context, Routes.cart);
-                  } else {
-                    Navigator.pushNamed(context, Routes.cart);
-                  }
-                },
-              ),
-              const Icon(Icons.favorite_border),
-              const Icon(Icons.more_horiz),
-            ],
-          ),
-        ),
-      ),
+
+      // Barra de navegação inferior personalizada
+      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 4),
     );
   }
 }
