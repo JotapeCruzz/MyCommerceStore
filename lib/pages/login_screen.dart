@@ -126,10 +126,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       SocialButton(
                         assetName: 'google_logo',
                         buttonText: 'Entrar com Google',
-                        onPressed: () => showSnack(
-                          context: context,
-                          message: 'Login social em breve',
-                        ),
+                        onPressed: () {
+                          loginGoogle().then((userCredential) {
+                            if (userCredential != null) {
+                              Navigator.pushNamed(context, Routes.home);
+                            } else {
+                              showSnack(
+                                context: context,
+                                message: 'Erro no login com Google',
+                                isError: true,
+                              );
+                            }
+                          });
+                        }
                       ),
                       SizedBox(height: 15),
                       SocialButton(

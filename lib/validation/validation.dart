@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 String? validateEmail(String? value) {
   if (value == null || value.isEmpty) {
@@ -26,3 +28,30 @@ String? validatePassword(String? value) {
   }
   return null;
 }
+
+Future<UserCredential?> loginGoogle() async {
+  try {
+    final googleSignIn = GoogleSignIn(
+      clientId: "395467234871-tels7cn4o3i9eqrbdarsmgsjqvndpokb.apps.googleusercontent.com",
+    );
+
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+    if (googleUser == null) return null;
+
+    final googleAuth = await googleUser.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  } catch (e) {
+    print("Erro no login com Google: $e");
+    return null;
+  }
+}
+
+
+
