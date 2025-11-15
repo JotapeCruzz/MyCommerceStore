@@ -1,8 +1,10 @@
 import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
+import 'package:ecommerce_my_store/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
 import '../routes/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ecommerce_my_store/colors.dart';
 
 
@@ -21,6 +23,7 @@ class CartScreen extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
+      drawer: CustomDrawer(user: FirebaseAuth.instance.currentUser!,),
       body: Column(
         children: [
           Expanded(
@@ -137,7 +140,7 @@ class CartScreen extends StatelessWidget {
       ),
 
       // Barra de navegação inferior personalizada
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 4),
+      // bottomNavigationBar: const CustomBottomNavBar(currentIndex: 4),
     );
   }
 }

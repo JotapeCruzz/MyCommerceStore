@@ -223,9 +223,6 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
       ),
 
       // Barra de navegação inferior personalizada
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 4),
-
-
     );
     
     

@@ -5,10 +5,7 @@ import 'package:ecommerce_my_store/routes/routes.dart';
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex; // indica qual ícone está selecionado
 
-  const CustomBottomNavBar({
-    super.key,
-    required this.currentIndex,
-  });
+  const CustomBottomNavBar({super.key, required this.currentIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -21,42 +18,28 @@ class CustomBottomNavBar extends StatelessWidget {
         // define pra onde cada botão vai navegar
         switch (index) {
           case 0:
-            Navigator.pushNamed(context, Routes.support); // chat/suporte
+            Navigator.pushNamed(context, Routes.home);
             break;
           case 1:
-            Navigator.pushNamed(context, Routes.login); // perfil (login)
+            Navigator.pushNamed(context, Routes.favorites);
             break;
           case 2:
-            Navigator.pushNamed(context, Routes.cart); // carrinho
-            break;
-          // case 3:
-          //   Navigator.pushNamed(context, Routes.favorites); // favoritos
-          //   break;
-          case 4:
-            Navigator.pushNamed(context, Routes.home); // “mais” → home
+            Navigator.pushNamed(context, Routes.login);
             break;
         }
       },
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.chat_bubble_outline),
-          label: 'Chat',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
-          label: 'Perfil',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart_outlined),
-          label: 'Carrinho',
+          icon: Icon(Icons.home_rounded),
+          label: 'Início',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite_border),
           label: 'Favoritos',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.more_horiz),
-          label: 'Mais',
+          icon: Icon(Icons.person_rounded), 
+          label: 'Eu'
         ),
       ],
     );

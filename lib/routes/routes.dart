@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:firebase_core/firebase_core.dart';
 
 // Importa a tela HomeScreen, que será usada como uma das rotas do app.
+import 'package:ecommerce_my_store/pages/favorites_screen.dart';
 import 'package:ecommerce_my_store/pages/home_screen.dart';
 import 'package:ecommerce_my_store/pages/login_screen.dart';
 import 'package:ecommerce_my_store/pages/register_screen.dart';
@@ -9,20 +13,21 @@ import 'package:ecommerce_my_store/pages/product_register.dart';
 import 'package:ecommerce_my_store/pages/kart_screen.dart';
 import 'package:ecommerce_my_store/pages/payment_screen.dart';
 import 'package:ecommerce_my_store/pages/faq_screen.dart';
+import 'rooter.dart';
 
 // Classe responsável por centralizar e gerenciar todas as rotas do aplicativo.
 // Isso ajuda a manter a navegação organizada e fácil de manter.
 class Routes {
-  static const String home = '/';
+  static const String home = '/home';
   static const String login = '/login';
   static const String register = '/register';
-  static const String support = '/support'; 
+  static const String support = '/support';
   static const String productRegister = '/productRegister';
   static const String cart = '/cart';
   static const String pagamento = '/pagamento';
   static const String faq = '/FAQ';
-
-
+  static const String favorites = '/favorites';
+  static const String rooter = '/auth';
 
   // Mapa de rotas do aplicativo: associa um nome de rota (String)
   // Esse mapa é usado dentro do MaterialApp (em app.dart).
@@ -32,8 +37,10 @@ class Routes {
     register: (context) => RegisterScreen(),
     support: (context) => const SupportScreen(),
     productRegister: (context) => const ProductRegisterScreen(),
-    cart: (context) => const CartScreen(), 
+    cart: (context) => const CartScreen(),
     pagamento: (context) => const PagamentoScreen(),
     faq: (context) => const QuestionsScreen(),
+    favorites: (context) => const FavoritosPage(),
+    rooter: (context) =>const AuthGate(),
   };
 }

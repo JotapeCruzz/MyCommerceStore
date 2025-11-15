@@ -1,0 +1,9 @@
+------------Imports Obrigatórios------------
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+------------Imports Necessários Funcionalidades ------------
+import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/colors.dart';
+import 'package:ecommerce_my_store/services/auth_service.dart';

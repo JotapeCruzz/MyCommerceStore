@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/services/auth_service.dart';
 import 'package:ecommerce_my_store/validation/validation.dart';
 import 'package:ecommerce_my_store/widgets/login_field.dart';
 import 'package:ecommerce_my_store/widgets/social_button.dart';
 import 'package:ecommerce_my_store/widgets/submit_button.dart';
 import 'package:ecommerce_my_store/widgets/support_button.dart';
 import 'package:ecommerce_my_store/widgets/snackbar.dart';
-import 'package:ecommerce_my_store/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (erro != null) {
           showSnack(context: context, message: erro, isError: true);
         } else {
-          Navigator.pushNamed(context, Routes.home);
+          Navigator.pushReplacementNamed(context, Routes.home);
         }
       });
     } else {
@@ -47,6 +47,23 @@ class _LoginScreenState extends State<LoginScreen> {
         isError: true,
       );
     }
+  }
+
+  void _onPressedGoogleLogin() async {
+    final userCredential = await _authService.loginGoogle();
+
+    if (userCredential == null) {
+      showSnack(
+        context: context,
+        message: 'Falha ao fazer login com Google.',
+        isError: true,
+      );
+      return;
+    }
+
+    // Login OK!
+    Navigator.pushReplacementNamed(context, Routes.home);
+
   }
 
   @override
@@ -82,7 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(height: 10),
-
                   // e-mail
                   LoginField(
                     labelText: 'E-mail',
@@ -91,7 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: validateEmail,
                   ),
                   SizedBox(height: 15),
-
                   // senha
                   LoginField(
                     labelText: 'Senha',
@@ -100,45 +115,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     isPassword: true,
                     validator: validatePassword,
                   ),
-
                   SizedBox(height: 20),
                   SubmitButton(
                     buttonText: 'Entrar',
                     onPressed: _onPressedLoginButton,
                   ),
-
                   SizedBox(height: 10),
-
                   TextButton(
                     onPressed: () =>
                         Navigator.pushNamed(context, Routes.register),
                     child: Text(
                       'Ainda não tem conta? Registre-se',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(height: 10),
-
                   Column(
                     children: [
                       SocialButton(
                         assetName: 'google_logo',
                         buttonText: 'Entrar com Google',
                         onPressed: () {
-                          loginGoogle().then((userCredential) {
-                            if (userCredential != null) {
-                              Navigator.pushNamed(context, Routes.home);
-                            } else {
-                              showSnack(
-                                context: context,
-                                message: 'Erro no login com Google',
-                                isError: true,
-                              );
-                            }
-                          });
-                        }
+                          _onPressedGoogleLogin();
+                        },
                       ),
                       SizedBox(height: 15),
                       SocialButton(
@@ -152,9 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-
                   SizedBox(height: 20),
-                  
                 ],
               ),
             ),
