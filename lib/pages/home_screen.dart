@@ -1,4 +1,6 @@
 import 'package:ecommerce_my_store/colors.dart';
+import 'package:ecommerce_my_store/services/auth_service.dart';
+import 'package:ecommerce_my_store/widgets/new_product.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
 
@@ -17,11 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
     // Scaffold é a estrutura base da tela (AppBar, body, botões flutuantes, etc.)
     return Scaffold(
       backgroundColor: Palette.whiteColor,
-      appBar: AppBar(
-        backgroundColor: Colors.blue, // Cor do topo da tela
-        title: const Text("Home Screen"), // Título da AppBar
-      ),
-
       // O corpo da tela (onde ficam os botões principais)
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center, // centraliza na horizontal
@@ -75,12 +72,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: const Text("Carrinho"),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      AuthService().userLogout();
+                      Navigator.pushNamed(context, Routes.login);
+                    });
+                  },
+                  child: const Text("Logout"),
+                ),
+              ),
             ],
           ),
         ],
       ),
-
-  
 
       // Define onde o botão flutuante vai ficar (no canto inferior direito)
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -102,27 +109,9 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 12), // espaço entre os dois botões
 
           // Chamo o widget que cria o botão de cadastro de produto
-          newProduct(),
+          NewProduct()
         ],
       ),
-    );
-  }
-}
-
-// Widget separado só pra deixar o código mais organizado
-class newProduct extends StatelessWidget {
-  const newProduct({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // Botão flutuante para ir pra tela de cadastro de produto
-    return FloatingActionButton.extended(
-      heroTag: 'fab-product-register', // tag única pra não dar conflito
-      backgroundColor: Colors.blue,
-      icon: const Icon(Icons.add),
-      label: const Text('Cadastrar produto (APENAS PARA VISUALIZAÇÃO!!!)'),
-      onPressed: () =>
-          Navigator.pushNamed(context, Routes.productRegister), // abre a tela de cadastro
     );
   }
 }

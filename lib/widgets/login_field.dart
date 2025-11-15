@@ -12,7 +12,7 @@ class LoginField extends StatelessWidget {
     super.key,
     required this.labelText,
     this.isPassword = false,
-    this.boxWidth = 350,
+    this.boxWidth = 310,
     this.validator,
     this.controller,
   });
@@ -25,7 +25,7 @@ class LoginField extends StatelessWidget {
         controller: controller,
         style: TextStyle(color: Palette.kSecondaryColor),
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(27),
+          contentPadding: EdgeInsets.all(20),
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Palette.borderColor, width: 2),
             borderRadius: BorderRadius.circular(10),

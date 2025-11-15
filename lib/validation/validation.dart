@@ -11,15 +11,6 @@ String? validateEmail(String? value) {
   return null;
 }
 
-String? validatePassword(String? value) {
-  if (value == null || value.isEmpty) {
-    return 'Password cannot be empty';
-  } else if (value.length < 8) {
-    return 'Password must be at least 8 characters long';
-  }
-  return null;
-}
-
 String? validateNickname(String? value) {
   if (value == null || value.isEmpty) {
     return "Nickname cannot be empty";
@@ -27,7 +18,7 @@ String? validateNickname(String? value) {
   return null;
 }
 
-String? validatePwdConfirmation(String? value) {
+String? validatePassword(String? value) {
   if (value == null || value.isEmpty) {
     return 'Password cannot be empty';
   } else if (value.length < 8) {

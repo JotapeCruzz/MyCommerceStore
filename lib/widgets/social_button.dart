@@ -34,7 +34,7 @@ class SocialButton extends StatelessWidget {
       style: TextButton.styleFrom(
         backgroundColor: Palette.kSecondaryColor,
         padding: EdgeInsets.symmetric(
-          vertical: 30,
+          vertical: 20,
           horizontal: horizontalPadding,
         ),
         shape: RoundedRectangleBorder(

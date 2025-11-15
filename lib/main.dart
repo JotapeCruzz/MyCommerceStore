@@ -19,7 +19,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => CartProvider()),
         // se tiver outros providers, adicione aqui
       ],
-      child: const MainApp(),
+      child: MainApp(),
     ),
   );
 }

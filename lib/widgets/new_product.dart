@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
 
 
-class newProduct extends StatelessWidget {
-  const newProduct({
+class NewProduct extends StatelessWidget {
+  const NewProduct({
     super.key,
   });
 

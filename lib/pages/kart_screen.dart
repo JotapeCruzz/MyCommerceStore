@@ -16,7 +16,7 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Palette.appBarColor, //---------------
+        backgroundColor: Palette.appBarColor,
         title: Image.asset('assets/images/e_logo.png', height: 40),
         centerTitle: true,
         elevation: 0,

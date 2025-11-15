@@ -6,6 +6,7 @@ import 'package:ecommerce_my_store/widgets/social_button.dart';
 import 'package:ecommerce_my_store/widgets/submit_button.dart';
 import 'package:ecommerce_my_store/widgets/support_button.dart';
 import 'package:ecommerce_my_store/widgets/snackbar.dart';
+import 'package:ecommerce_my_store/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
 
   @override
   void dispose() {
@@ -27,22 +29,30 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _onPressedLoginButton() {
+    String email = _emailController.text;
+    String pwd = _passwordController.text;
+
     if (_formKey.currentState!.validate()) {
-      showSnack(context: context, message: 'Login validado com sucesso!');
+      _authService.userLogin(email: email, password: pwd).then((String? erro) {
+        if (erro != null) {
+          showSnack(context: context, message: erro, isError: true);
+        } else {
+          Navigator.pushNamed(context, Routes.home);
+        }
+      });
     } else {
-      showSnack(context: context, message: 'Verifique os campos e tente novamente.', isError: true);
+      showSnack(
+        context: context,
+        message: 'Verifique os campos e tente novamente.',
+        isError: true,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Entrar'),
-      ),
-      floatingActionButton: const SupportButton(), // suporte fixo
+      floatingActionButton: SupportButton(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Center(
@@ -54,12 +64,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   // logo
                   Padding(
-                    padding: const EdgeInsets.only(top: 8, bottom: 16),
+                    padding: EdgeInsets.only(top: 70, bottom: 20),
                     child: Image.asset(
                       'assets/images/e_logo.png',
                       width: 120,
                       height: 120,
-                      errorBuilder: (_, __, ___) => const SizedBox(
+                      errorBuilder: (_, _, _) => const SizedBox(
                         width: 120,
                         height: 120,
                         child: Center(
@@ -76,6 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // e-mail
                   LoginField(
                     labelText: 'E-mail',
+                    boxWidth: 315,
                     controller: _emailController,
                     validator: validateEmail,
                   ),
@@ -84,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // senha
                   LoginField(
                     labelText: 'Senha',
+                    boxWidth: 315,
                     controller: _passwordController,
                     isPassword: true,
                     validator: validatePassword,
@@ -102,8 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.pushNamed(context, Routes.register),
                     child: Text(
                       'Ainda não tem conta? Registre-se',
-                      style: theme.textTheme.bodyMedium!.copyWith(
-                        color: theme.colorScheme.primary,
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -115,19 +126,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       SocialButton(
                         assetName: 'google_logo',
                         buttonText: 'Entrar com Google',
-                        onPressed: () => showSnack(context: context, message: 'Login social em breve'),
+                        onPressed: () => showSnack(
+                          context: context,
+                          message: 'Login social em breve',
+                        ),
                       ),
                       SizedBox(height: 15),
                       SocialButton(
                         assetName: 'meta_logo',
                         buttonText: 'Entrar com Meta',
                         horizontalPadding: 78,
-                        onPressed: () => showSnack(context: context, message: 'Login social em breve'),
+                        onPressed: () => showSnack(
+                          context: context,
+                          message: 'Login social em breve',
+                        ),
                       ),
                     ],
                   ),
 
                   SizedBox(height: 20),
+                  
                 ],
               ),
             ),

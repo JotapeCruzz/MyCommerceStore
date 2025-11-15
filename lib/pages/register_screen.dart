@@ -21,7 +21,6 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Register')),
       body: SingleChildScrollView(
         child: Center(
           child: Form(
@@ -29,7 +28,7 @@ class RegisterScreen extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.only(top:70, bottom: 20),
                   child: Image.asset(
                     'assets/images/e_logo.png',
                     errorBuilder: (context, error, stackTrace) => Container(
@@ -67,12 +66,12 @@ class RegisterScreen extends StatelessWidget {
                   labelText: 'Confirme a senha',
                   isPassword: true,
                   controller: _pwdConfirmController,
-                  validator: (String? value) => validatePwdConfirmation(value),
+                  validator:(String? value) => validatePassword(value),
                 ),
                 SizedBox(height: 20),
                 SubmitButton(
                   buttonText: 'Registrar',
-                  size: [360, 55],
+                  size: [315, 55],
                   onPressed: () {
                     onPressedRegisterButton(context);
                   },
@@ -99,7 +98,7 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  onPressedRegisterButton(context) {
+  void onPressedRegisterButton(BuildContext context) {
     String pwd = _passwordController.text;
     String email = _emailController.text;
     String name = _nameController.text;
@@ -107,16 +106,16 @@ class RegisterScreen extends StatelessWidget {
       _authService.userRegister(email: email, password: pwd, name: name).then((
         String? error,
       ) {
-        //Voltou com erro
         if (error != null) {
-          showSnack(context: context, message: error, isError: true);
-        }
-        //Deu certo
-        else {
-          showSnack(
-            context: context,
-            message: "Usuário registrado com sucesso!",
-          );
+          print("Erro no registro: $error");
+        } else {
+          _authService.userLogin(email: email, password: pwd).then((String? erro){
+            if (erro != null) {
+            showSnack(context: context, message: erro, isError: false);
+          } else {
+            Navigator.pushNamed(context, Routes.home);
+          }
+          });
         }
       });
     } else {
