@@ -1,19 +1,27 @@
+import 'package:ecommerce_my_store/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ecommerce_my_store/services/auth_service.dart';
+
+
 
 
 // ===============================
 // TELA PRINCIPAL DE PERFIL
 // ===============================
-class PerfilPage extends StatelessWidget {
-  const PerfilPage({super.key});
+class PerfilPage extends StatefulWidget {
+  final User user;
+  const PerfilPage({super.key, required this.user});
 
+  @override
+  State<PerfilPage> createState() => _PerfilPageState();
+}
+
+class _PerfilPageState extends State<PerfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meu Perfil'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Meu Perfil'), centerTitle: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -33,15 +41,17 @@ class PerfilPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Lucas Lima',
+                         Text(
+                          (widget.user.displayName != null)
+                              ? widget.user.displayName!
+                              : '',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 4),
-                        const Text('lucas@email.com'),
+                         Text(widget.user.email!),
                         const SizedBox(height: 8),
                         TextButton(
                           onPressed: () {},
@@ -66,9 +76,7 @@ class PerfilPage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const EnderecosPage(),
-                    ),
+                    MaterialPageRoute(builder: (_) => const EnderecosPage()),
                   );
                 },
               ),
@@ -80,14 +88,14 @@ class PerfilPage extends StatelessWidget {
               child: ListTile(
                 leading: const Icon(Icons.credit_card),
                 title: const Text('Pagamentos'),
-                subtitle: const Text('Cartões, Pix e outras formas de pagamento'),
+                subtitle: const Text(
+                  'Cartões, Pix e outras formas de pagamento',
+                ),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const PagamentosPage(),
-                    ),
+                    MaterialPageRoute(builder: (_) => const PagamentosPage()),
                   );
                 },
               ),
@@ -104,9 +112,7 @@ class PerfilPage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const AjudaPage(),
-                    ),
+                    MaterialPageRoute(builder: (_) => const AjudaPage()),
                   );
                 },
               ),
@@ -123,9 +129,7 @@ class PerfilPage extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const PoliticaPage(),
-                    ),
+                    MaterialPageRoute(builder: (_) => const PoliticaPage()),
                   );
                 },
               ),
@@ -136,7 +140,10 @@ class PerfilPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  AuthService().userLogout();
+                  Navigator.pushReplacementNamed(context, Routes.login);
+                },
                 icon: const Icon(Icons.logout),
                 label: const Text('Sair da Conta'),
               ),

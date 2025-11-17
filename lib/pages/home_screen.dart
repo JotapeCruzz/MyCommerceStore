@@ -37,6 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.forum_rounded),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 5, right: 10),
+            child: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.perfilPage);
+              },
+              icon: Icon(Icons.person),
+            ),
+          ),
         ],
       ),
       drawer: CustomDrawer(user: FirebaseAuth.instance.currentUser!),

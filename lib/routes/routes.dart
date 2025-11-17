@@ -58,6 +58,6 @@ class Routes {
     editAdress: (context) => const EditarEnderecoPage(),
     editProfile: (context) => const EditarPerfilPage(),
     policyPrivacy: (context) => const PrivacyPolicyScreen(),
-    perfilPage: (context) => const PerfilPage(),
+    perfilPage: (context) => PerfilPage(user: FirebaseAuth.instance.currentUser!),
   };
 }
