@@ -18,12 +18,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            // currentAccountPicture: CircleAvatar(backgroundImage: AssetImage(),),
-            accountName: Text(
-              (widget.user.displayName != null) ? widget.user.displayName! : "",
+            currentAccountPicture: const CircleAvatar( //Adiciona um avatar padrão (apenas exemplo de foto)
+              backgroundColor: Colors.white,
+              child: Icon(Icons.person, size: 40, color: Colors.grey),
             ),
+
+            accountName: Text(widget.user.displayName ?? ''),
             accountEmail: Text(widget.user.email!),
           ),
+
           ListTile(
             title: Text('Suporte'),
             leading: Icon(Icons.contact_support_rounded),
