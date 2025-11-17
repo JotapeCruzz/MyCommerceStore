@@ -41,7 +41,21 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: CustomDrawer(user: FirebaseAuth.instance.currentUser!),
       body: SingleChildScrollView(),
-      // bottomNavigationBar: CustomBottomNavBar(currentIndex: 0),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: 0,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              break;
+            case 1:
+              Navigator.pushReplacementNamed(context, Routes.favorites);
+              break;
+            case 2:
+              Navigator.pushReplacementNamed(context, Routes.perfilPage);
+              break;
+          }
+        },
+      ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 
 
@@ -144,6 +146,28 @@ class PerfilPage extends StatelessWidget {
             const SizedBox(height: 20),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: 2,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, Routes.home);
+              break;
+            case 1:
+              Navigator.pushReplacementNamed(context, Routes.favorites);
+              break;
+            case 2:
+              Navigator.pushReplacementNamed(context, Routes.perfilPage);
+              break;
+            case 3:
+              Navigator.pushReplacementNamed(context, Routes.perfilPage);
+              break;
+            case 4:
+              Navigator.pushReplacementNamed(context, Routes.cart);
+              break;
+          }
+        },
       ),
     );
   }
