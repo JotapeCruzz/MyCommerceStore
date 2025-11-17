@@ -16,6 +16,8 @@ dependencies:
   qr_flutter: ^4.1.0
   google_sign_in: ^6.3.0
   google_identity_services_web: ^0.3.3+1
+  flutter_masked_text2: ^0.9.1
+
 
 dev_dependencies:
   flutter_test:
