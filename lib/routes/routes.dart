@@ -1,3 +1,4 @@
+import 'package:ecommerce_my_store/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -37,6 +38,7 @@ class Routes {
   static const String editPayment = '/editPayment'; 
   static const String policyPrivacy = '/policyPrivacy'; 
   static const String editAdress = '/editAdress';
+  static const String perfilPage = '/perfilPage';
   
 
   // Mapa de rotas do aplicativo: associa um nome de rota (String)
@@ -56,5 +58,6 @@ class Routes {
     editAdress: (context) => const EditarEnderecoPage(),
     editProfile: (context) => const EditarPerfilPage(),
     policyPrivacy: (context) => const PrivacyPolicyScreen(),
+    perfilPage: (context) => const PerfilPage(),
   };
 }
