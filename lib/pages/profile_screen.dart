@@ -1,21 +1,8 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MeuApp());
-}
-
-class MeuApp extends StatelessWidget {
-  const MeuApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'E-commerce Perfil',
-      home: PerfilPage(),
-    );
-  }
-}
+import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/colors.dart';
+import 'package:ecommerce_my_store/widgets/submit_button.dart';
+import 'package:ecommerce_my_store/pages/policyprivace_screen.dart';
 
 // ===============================
 // TELA PRINCIPAL DE PERFIL
@@ -29,6 +16,7 @@ class PerfilPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Meu Perfil'),
         centerTitle: true,
+        backgroundColor: Palette.appBarColor
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -60,8 +48,14 @@ class PerfilPage extends StatelessWidget {
                         const Text('lucas@email.com'),
                         const SizedBox(height: 8),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.editProfile,
+                            );
+                          },
                           child: const Text('Editar Perfil'),
+                          
                         ),
                       ],
                     ),
@@ -80,11 +74,9 @@ class PerfilPage extends StatelessWidget {
                 subtitle: const Text('Gerencie seus endereços de entrega'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const EnderecosPage(),
-                    ),
+                    Routes.editAdress,
                   );
                 },
               ),
@@ -95,15 +87,13 @@ class PerfilPage extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               child: ListTile(
                 leading: const Icon(Icons.credit_card),
-                title: const Text('Pagamentos'),
-                subtitle: const Text('Cartões, Pix e outras formas de pagamento'),
+                title: const Text('Cartões'),
+                subtitle: const Text('Gerencie seus cartões.'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const PagamentosPage(),
-                    ),
+                    Routes.editPayment,
                   );
                 },
               ),
@@ -118,35 +108,40 @@ class PerfilPage extends StatelessWidget {
                 subtitle: const Text('Dúvidas frequentes e suporte'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const AjudaPage(),
-                    ),
+                    Routes.support,
                   );
                 },
               ),
             ),
 
             // --- POLÍTICA DE PRIVACIDADE ---
-            Card(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              child: ListTile(
-                leading: const Icon(Icons.privacy_tip_outlined),
-                title: const Text('Política de Privacidade'),
-                subtitle: const Text('Saiba como protegemos seus dados'),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const PoliticaPage(),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 20),
+            // --- POLÍTICA DE PRIVACIDADE ---
+Card(
+  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+  child: ListTile(
+    leading: const Icon(Icons.privacy_tip_outlined),
+    title: const Text('Política de Privacidade'),
+    subtitle: const Text('Saiba como protegemos seus dados'),
+    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PrivacyPolicyScreen(
+            onAccepted: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Você aceitou as políticas de privacidade.')),
+              );
+            },
+          ),
+        ),
+      );
+    },
+  ),
+),
+
 
             // --- BOTÃO DE SAIR ---
             Padding(
@@ -165,80 +160,10 @@ class PerfilPage extends StatelessWidget {
   }
 }
 
-// ===============================
-// TELAS SECUNDÁRIAS
-// ===============================
-class EnderecosPage extends StatelessWidget {
-  const EnderecosPage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Meus Endereços')),
-      body: const Center(
-        child: Text(
-          'Aqui você pode adicionar e gerenciar seus endereços de entrega.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    );
-  }
-}
 
-class PagamentosPage extends StatelessWidget {
-  const PagamentosPage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Pagamentos')),
-      body: const Center(
-        child: Text(
-          'Gerencie seus cartões, Pix e outras formas de pagamento.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    );
-  }
-}
+ 
 
-class AjudaPage extends StatelessWidget {
-  const AjudaPage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Central de Ajuda')),
-      body: const Padding(
-        padding: EdgeInsets.all(16),
-        child: Text(
-          'Bem-vindo à Central de Ajuda!\n\n'
-          'Aqui você encontrará respostas para dúvidas frequentes '
-          'e poderá entrar em contato com nosso suporte.',
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    );
-  }
-}
 
-class PoliticaPage extends StatelessWidget {
-  const PoliticaPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Política de Privacidade')),
-      body: const Padding(
-        padding: EdgeInsets.all(16),
-        child: Text(
-          'Sua privacidade é importante para nós.\n\n'
-          'Aqui explicamos como coletamos, usamos e protegemos seus dados pessoais.',
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
-    );
-  }
-}
