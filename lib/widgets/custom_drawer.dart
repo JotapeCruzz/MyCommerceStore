@@ -24,6 +24,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             accountEmail: Text(widget.user.email!),
           ),
+<<<<<<< HEAD
+=======
+
+
+            ListTile(
+            title: Text('Meu Perfil'),
+            leading: Icon(Icons.person_rounded),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.perfilPage);
+            },
+          ),
+
+>>>>>>> c8cccc7 (add)
           ListTile(
             title: Text('Suporte'),
             leading: Icon(Icons.contact_support_rounded),
@@ -32,7 +45,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             },
           ),
           ListTile(
-            title: Text('Registro de produtos'),
+            title: Text('Registrar produtos'),
             leading: Icon(Icons.fiber_new_rounded),
             onTap: () {
               Navigator.pushNamed(context, Routes.productRegister);
@@ -45,6 +58,36 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.pushNamed(context, Routes.pagamento);
             },
           ),
+          ListTile(
+            title: Text('FAQ'),
+            leading: Icon(Icons.question_answer_rounded),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.faq);
+            },
+          ),
+          ListTile(
+            title: Text('Política de Privacidade'),
+            leading: Icon(Icons.privacy_tip_rounded),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.policyPrivacy);
+            },
+          ),
+          ListTile(
+            title: Text('Favoritos'),
+            leading: Icon(Icons.favorite_rounded),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.favorites);
+            },
+          ),
+
+          ListTile(
+            title: Text('Carrinho'),
+            leading: Icon(Icons.shopping_cart_rounded),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.cart);
+            },
+          ),
+
           Divider(),
           ListTile(
             leading: Icon(Icons.logout_rounded),
