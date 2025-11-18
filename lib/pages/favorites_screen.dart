@@ -1,3 +1,4 @@
+import 'package:ecommerce_my_store/colors.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
 import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,16 @@ class FavoritosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Meus Favoritos'), centerTitle: true),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushReplacementNamed(context, Routes.home);
+          }, 
+          icon: Icon(Icons.arrow_back_rounded)),
+        backgroundColor: Palette.appBarColor,
+        title: Text('Meus Favoritos'),
+        centerTitle: true,
+      ),
       body: const FavoritosContent(),
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: 1,
@@ -22,12 +32,6 @@ class FavoritosPage extends StatelessWidget {
               break;
             case 2:
               Navigator.pushReplacementNamed(context, Routes.perfilPage);
-              break;
-            case 3:
-              
-              break;
-            case 4:
-              Navigator.pushReplacementNamed(context, Routes.cart);
               break;
           }
         },

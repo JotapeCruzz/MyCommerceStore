@@ -54,12 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
             case 2:
               Navigator.pushReplacementNamed(context, Routes.perfilPage);
               break;
-            case 3:
-              
-              break;
-            case 4:
-              Navigator.pushReplacementNamed(context, Routes.cart);
-              break;
           }
         },
       ),

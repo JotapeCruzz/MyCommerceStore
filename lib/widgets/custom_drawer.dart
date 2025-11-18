@@ -24,19 +24,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             accountEmail: Text(widget.user.email!),
           ),
-<<<<<<< HEAD
-=======
-
-
-            ListTile(
-            title: Text('Meu Perfil'),
-            leading: Icon(Icons.person_rounded),
-            onTap: () {
-              Navigator.pushNamed(context, Routes.perfilPage);
-            },
-          ),
-
->>>>>>> c8cccc7 (add)
           ListTile(
             title: Text('Suporte'),
             leading: Icon(Icons.contact_support_rounded),
@@ -70,21 +57,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: Icon(Icons.privacy_tip_rounded),
             onTap: () {
               Navigator.pushNamed(context, Routes.policyPrivacy);
-            },
-          ),
-          ListTile(
-            title: Text('Favoritos'),
-            leading: Icon(Icons.favorite_rounded),
-            onTap: () {
-              Navigator.pushNamed(context, Routes.favorites);
-            },
-          ),
-
-          ListTile(
-            title: Text('Carrinho'),
-            leading: Icon(Icons.shopping_cart_rounded),
-            onTap: () {
-              Navigator.pushNamed(context, Routes.cart);
             },
           ),
 

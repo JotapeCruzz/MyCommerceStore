@@ -23,12 +23,17 @@ class CustomBottomNavBar extends StatelessWidget {
           label: 'Início',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite_border),
+          icon: Icon(Icons.favorite),
           label: 'Favoritos',
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Eu'),
-        BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Eu'),
-        BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Eu'),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.shopping_cart_checkout_rounded), 
+        //   label: 'Carrinho'
+        // ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person_rounded), 
+          label: 'Eu'
+        ),
       ],
     );
   }
