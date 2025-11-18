@@ -161,7 +161,7 @@ class PerfilPage extends StatelessWidget {
               Navigator.pushReplacementNamed(context, Routes.perfilPage);
               break;
             case 3:
-              Navigator.pushReplacementNamed(context, Routes.perfilPage);
+              
               break;
             case 4:
               Navigator.pushReplacementNamed(context, Routes.cart);

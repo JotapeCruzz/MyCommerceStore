@@ -20,10 +20,10 @@ class PrivacyPolicyScreen extends StatefulWidget {
   final VoidCallback? onAccepted;
 
   const PrivacyPolicyScreen({
-    Key? key,
+    super.key,
     this.policyText,
     this.onAccepted,
-  }) : super(key: key);
+  });
 
   @override
   State<PrivacyPolicyScreen> createState() => _PrivacyPolicyScreenState();
@@ -53,7 +53,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.03),
+                        color: Colors.black,
                         blurRadius: 6,
                         offset: const Offset(0, 2),
                       ),

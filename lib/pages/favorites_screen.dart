@@ -1,3 +1,5 @@
+import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 
 class FavoritosPage extends StatelessWidget {
@@ -6,11 +8,30 @@ class FavoritosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meus Favoritos'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Meus Favoritos'), centerTitle: true),
       body: const FavoritosContent(),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: 1,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, Routes.home);
+              break;
+            case 1:
+              Navigator.pushReplacementNamed(context, Routes.favorites);
+              break;
+            case 2:
+              Navigator.pushReplacementNamed(context, Routes.perfilPage);
+              break;
+            case 3:
+              
+              break;
+            case 4:
+              Navigator.pushReplacementNamed(context, Routes.cart);
+              break;
+          }
+        },
+      ),
     );
   }
 }
@@ -25,17 +46,17 @@ class FavoritosContent extends StatelessWidget {
       {
         'nome': 'Tênis Esportivo',
         'imagem': 'https://cdn-icons-png.flaticon.com/512/825/825539.png',
-        'preco': 'R\$ 299,90'
+        'preco': 'R\$ 299,90',
       },
       {
         'nome': 'Fone de Ouvido Bluetooth',
         'imagem': 'https://cdn-icons-png.flaticon.com/512/3161/3161406.png',
-        'preco': 'R\$ 199,00'
+        'preco': 'R\$ 199,00',
       },
       {
         'nome': 'Relógio Digital',
         'imagem': 'https://cdn-icons-png.flaticon.com/512/287/287221.png',
-        'preco': 'R\$ 149,90'
+        'preco': 'R\$ 149,90',
       },
     ];
 
@@ -52,10 +73,7 @@ class FavoritosContent extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = favoritos[index];
               return Card(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 child: ListTile(
                   leading: Image.network(
                     item['imagem']!,
