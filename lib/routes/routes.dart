@@ -1,4 +1,3 @@
-import 'package:ecommerce_my_store/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -19,6 +18,9 @@ import 'package:ecommerce_my_store/pages/editpayment_screen.dart';
 import 'package:ecommerce_my_store/pages/editadress_screen.dart';
 import 'package:ecommerce_my_store/pages/editprofile_screen.dart';  
 import 'package:ecommerce_my_store/pages/policyprivace_screen.dart';
+import 'package:ecommerce_my_store/pages/profile_screen.dart';
+
+
 
 
 // Classe responsável por centralizar e gerenciar todas as rotas do aplicativo.
@@ -39,6 +41,9 @@ class Routes {
   static const String policyPrivacy = '/policyPrivacy'; 
   static const String editAdress = '/editAdress';
   static const String perfilPage = '/perfilPage';
+  static const String policyPrivace = '/policyPrivace';
+  
+
   
 
   // Mapa de rotas do aplicativo: associa um nome de rota (String)
@@ -59,5 +64,6 @@ class Routes {
     editProfile: (context) => const EditarPerfilPage(),
     policyPrivacy: (context) => const PrivacyPolicyScreen(),
     perfilPage: (context) => PerfilPage(user: FirebaseAuth.instance.currentUser!),
+    
   };
 }

@@ -35,7 +35,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             },
           ),
           ListTile(
-            title: Text('Registro de produtos'),
+            title: Text('Registrar produtos'),
             leading: Icon(Icons.fiber_new_rounded),
             onTap: () {
               Navigator.pushNamed(context, Routes.productRegister);
@@ -48,6 +48,21 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.pushNamed(context, Routes.pagamento);
             },
           ),
+          ListTile(
+            title: Text('FAQ'),
+            leading: Icon(Icons.question_answer_rounded),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.faq);
+            },
+          ),
+          ListTile(
+            title: Text('Política de Privacidade'),
+            leading: Icon(Icons.privacy_tip_rounded),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.policyPrivacy);
+            },
+          ),
+
           Divider(),
           ListTile(
             leading: Icon(Icons.logout_rounded),

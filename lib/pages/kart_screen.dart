@@ -7,7 +7,6 @@ import '../routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ecommerce_my_store/colors.dart';
 
-
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
@@ -18,12 +17,15 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushReplacementNamed(context, Routes.home);
+          }, 
+          icon: Icon(Icons.arrow_back_rounded)),
         backgroundColor: Palette.appBarColor,
-        title: Image.asset('assets/images/e_logo.png', height: 40),
+        title: Text('Carrinho'),
         centerTitle: true,
-        elevation: 0,
       ),
-      drawer: CustomDrawer(user: FirebaseAuth.instance.currentUser!,),
       body: Column(
         children: [
           Expanded(
@@ -138,9 +140,6 @@ class CartScreen extends StatelessWidget {
           ),
         ],
       ),
-
-      // Barra de navegação inferior personalizada
-      // bottomNavigationBar: const CustomBottomNavBar(currentIndex: 4),
     );
   }
 }
