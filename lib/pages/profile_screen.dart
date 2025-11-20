@@ -7,13 +7,8 @@ import 'package:ecommerce_my_store/services/auth_service.dart';
 import 'package:ecommerce_my_store/pages/editadress_screen.dart';
 import 'package:ecommerce_my_store/pages/policyprivace_screen.dart';
 import 'package:ecommerce_my_store/pages/editprofile_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
-
-// ===============================
-// TELA PRINCIPAL DE PERFIL
-// ===============================
 class PerfilPage extends StatefulWidget {
   final User user;
   const PerfilPage({super.key, required this.user});
@@ -30,7 +25,7 @@ class _PerfilPageState extends State<PerfilPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // --- CABEÇALHO COM DADOS DO USUÁRIO ---
+            // --- CABEÇALHO ---
             Container(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -46,17 +41,15 @@ class _PerfilPageState extends State<PerfilPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         Text(
-                          (widget.user.displayName != null)
-                              ? widget.user.displayName!
-                              : '',
-                          style: TextStyle(
+                        Text(
+                          widget.user.displayName ?? "",
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 4),
-                         Text(widget.user.email!),
+                        Text(widget.user.email!),
                         const SizedBox(height: 8),
                         TextButton(
                           onPressed: () {
@@ -73,9 +66,10 @@ class _PerfilPageState extends State<PerfilPage> {
                 ],
               ),
             ),
+
             const SizedBox(height: 10),
 
-            // --- SEÇÃO ENDEREÇOS ---
+            // --- ENDEREÇOS ---
             Card(
               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               child: ListTile(
@@ -92,21 +86,29 @@ class _PerfilPageState extends State<PerfilPage> {
               ),
             ),
 
-            // --- SEÇÃO PAGAMENTOS ---
+            // --- PAGAMENTOS (ATUALIZADO) ---
             Card(
               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               child: ListTile(
                 leading: const Icon(Icons.credit_card),
                 title: const Text('Pagamentos'),
-                subtitle: const Text(
-                  'Cartões, Pix e outras formas de pagamento',
-                ),
+                subtitle: const Text('Cartões, Pix e outras formas de pagamento'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {
-                  Navigator.push(
+
+                // ⭐ AQUI ESTÁ A CORREÇÃO ⭐
+                onTap: () async {
+                  final result = await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const EditarPagamentoPage()),
+                    MaterialPageRoute(
+                      builder: (_) => const EditarPagamentoPage(),
+                    ),
                   );
+
+                  if (result != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(result.toString())),
+                    );
+                  }
                 },
               ),
             ),
@@ -128,7 +130,7 @@ class _PerfilPageState extends State<PerfilPage> {
               ),
             ),
 
-            // --- POLÍTICA DE PRIVACIDADE ---
+            // --- PRIVACIDADE ---
             Card(
               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               child: ListTile(
@@ -144,9 +146,10 @@ class _PerfilPageState extends State<PerfilPage> {
                 },
               ),
             ),
+
             const SizedBox(height: 20),
 
-            // --- BOTÃO DE SAIR ---
+            // --- BOTÃO SAIR ---
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ElevatedButton.icon(
@@ -158,6 +161,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 label: const Text('Sair da Conta'),
               ),
             ),
+
             const SizedBox(height: 20),
           ],
         ),
@@ -165,3 +169,4 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 }
+

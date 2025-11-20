@@ -9,6 +9,9 @@ environment:
 dependencies:
   firebase_auth: ^6.1.2
   firebase_core: ^4.2.1
+  firebase_storage: ^13.0.4
+  cloud_firestore: 6.1.0 
+  image_picker: ^1.1.2 
   flutter:
     sdk: flutter
   flutter_svg: ^2.2.2
@@ -17,6 +20,7 @@ dependencies:
   google_sign_in: ^6.3.0
   google_identity_services_web: ^0.3.3+1
   flutter_masked_text2: ^0.9.1
+  mask_text_input_formatter: ^2.4.0
 
 
 dev_dependencies:

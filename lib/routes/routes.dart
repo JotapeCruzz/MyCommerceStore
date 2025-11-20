@@ -19,6 +19,8 @@ import 'package:ecommerce_my_store/pages/editadress_screen.dart';
 import 'package:ecommerce_my_store/pages/editprofile_screen.dart';  
 import 'package:ecommerce_my_store/pages/policyprivace_screen.dart';
 import 'package:ecommerce_my_store/pages/profile_screen.dart';
+import 'package:ecommerce_my_store/pages/listcard_screen.dart';
+import 'package:ecommerce_my_store/pages/listadress_screen.dart';
 
 
 
@@ -42,6 +44,8 @@ class Routes {
   static const String editAdress = '/editAdress';
   static const String perfilPage = '/perfilPage';
   static const String policyPrivace = '/policyPrivace';
+  static const String listCard = '/listCard';
+  static const String listAdress = '/listAdress';
   
 
   
@@ -64,6 +68,7 @@ class Routes {
     editProfile: (context) => const EditarPerfilPage(),
     policyPrivacy: (context) => const PrivacyPolicyScreen(),
     perfilPage: (context) => PerfilPage(user: FirebaseAuth.instance.currentUser!),
-    
+    listCard: (context) => const ListaCartoesPage(),
+    listAdress: (context) => const ListaEnderecosPage(),
   };
 }
