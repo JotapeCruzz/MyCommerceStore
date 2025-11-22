@@ -2,10 +2,10 @@ import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
 import 'package:ecommerce_my_store/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/cart_provider.dart';
-import '../routes/routes.dart';
+import '../../providers/cart_provider.dart';
+import '../../routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ecommerce_my_store/colors.dart';
+import 'package:ecommerce_my_store/widgets/colors.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});

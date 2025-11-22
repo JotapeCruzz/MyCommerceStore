@@ -1,4 +1,4 @@
-import 'package:ecommerce_my_store/colors.dart';
+import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:ecommerce_my_store/services/auth_service.dart';
 import 'package:ecommerce_my_store/validation/validation.dart';
 import 'package:ecommerce_my_store/widgets/login_field.dart';

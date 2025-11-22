@@ -4,23 +4,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 // Importa a tela HomeScreen, que será usada como uma das rotas do app.
-import 'package:ecommerce_my_store/pages/favorites_screen.dart';
-import 'package:ecommerce_my_store/pages/home_screen.dart';
-import 'package:ecommerce_my_store/pages/login_screen.dart';
-import 'package:ecommerce_my_store/pages/register_screen.dart';
-import 'package:ecommerce_my_store/pages/support_screen.dart';
-import 'package:ecommerce_my_store/pages/product_register.dart';
-import 'package:ecommerce_my_store/pages/kart_screen.dart';
-import 'package:ecommerce_my_store/pages/payment_screen.dart';
-import 'package:ecommerce_my_store/pages/faq_screen.dart';
+import 'package:ecommerce_my_store/pages/wishlist/favorites_screen.dart';
+import 'package:ecommerce_my_store/pages/home/home_screen.dart';
+import 'package:ecommerce_my_store/pages/logins/login_screen.dart';
+import 'package:ecommerce_my_store/pages/logins/register_screen.dart';
+import 'package:ecommerce_my_store/pages/others/support_screen.dart';
+import 'package:ecommerce_my_store/pages/stores/product_register.dart';
+import 'package:ecommerce_my_store/pages/wishlist/kart_screen.dart';
+import 'package:ecommerce_my_store/pages/payments/payment_screen.dart';
+import 'package:ecommerce_my_store/pages/others/faq_screen.dart';
 import 'rooter.dart';
-import 'package:ecommerce_my_store/pages/editpayment_screen.dart';
-import 'package:ecommerce_my_store/pages/editadress_screen.dart';
-import 'package:ecommerce_my_store/pages/editprofile_screen.dart';  
-import 'package:ecommerce_my_store/pages/policyprivace_screen.dart';
-import 'package:ecommerce_my_store/pages/profile_screen.dart';
-import 'package:ecommerce_my_store/pages/listcard_screen.dart';
-import 'package:ecommerce_my_store/pages/listadress_screen.dart';
+import 'package:ecommerce_my_store/pages/payments/editpayment_screen.dart';
+import 'package:ecommerce_my_store/pages/profile/editadress_screen.dart';
+import 'package:ecommerce_my_store/pages/profile/editprofile_screen.dart';  
+import 'package:ecommerce_my_store/pages/others/policyprivace_screen.dart';
+import 'package:ecommerce_my_store/pages/profile/profile_screen.dart';
+import 'package:ecommerce_my_store/pages/payments/listcard_screen.dart';
+import 'package:ecommerce_my_store/pages/profile/listadress_screen.dart';
 
 
 

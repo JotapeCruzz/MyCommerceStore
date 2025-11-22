@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ecommerce_my_store/colors.dart';
+import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SocialButton extends StatelessWidget {

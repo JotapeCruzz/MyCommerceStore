@@ -1,4 +1,4 @@
-import 'package:ecommerce_my_store/colors.dart';
+import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
 import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';

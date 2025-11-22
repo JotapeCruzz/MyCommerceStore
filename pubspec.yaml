@@ -21,6 +21,7 @@ dependencies:
   google_identity_services_web: ^0.3.3+1
   flutter_masked_text2: ^0.9.1
   mask_text_input_formatter: ^2.4.0
+  http: ^1.6.0
 
 
 dev_dependencies:

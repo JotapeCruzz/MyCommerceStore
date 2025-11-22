@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import '../providers/cart_provider.dart'; // Correct import for CartProvider
+import '../../providers/cart_provider.dart'; // Correct import for CartProvider
 
 class PagamentoScreen extends StatefulWidget {
-  const PagamentoScreen({Key? key}) : super(key: key);
+  const PagamentoScreen({super.key});
 
   @override
   State<PagamentoScreen> createState() => _PagamentoScreenState();
