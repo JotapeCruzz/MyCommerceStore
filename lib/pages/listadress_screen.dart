@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'editadress_screen.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/widgets/snackbar.dart';
 
 class ListaEnderecosPage extends StatelessWidget {
   const ListaEnderecosPage({super.key});
@@ -75,6 +76,7 @@ class ListaEnderecosPage extends StatelessWidget {
                               .collection("enderecos")
                               .doc(id)
                               .delete();
+                              showSnack(context: context, message: "Endereço excluído com sucesso!",isError: true );
                         },
                       ),
                     ],

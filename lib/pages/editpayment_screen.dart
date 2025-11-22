@@ -1,19 +1,17 @@
+import 'package:ecommerce_my_store/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'listcard_screen.dart';
+import 'package:ecommerce_my_store/widgets/snackbar.dart';
 
 class EditarPagamentoPage extends StatefulWidget {
   final Map<String, dynamic>? cardData;
   final String? cardId;
 
-  const EditarPagamentoPage({
-    super.key,
-    this.cardData,
-    this.cardId,
-  });
+  const EditarPagamentoPage({super.key, this.cardData, this.cardId});
 
   @override
   State<EditarPagamentoPage> createState() => _EditarPagamentoPageState();
@@ -46,9 +44,13 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
 
       // Atualiza as máscaras caso já tenha valor
       maskNumeroCartao.formatEditUpdate(
-          TextEditingValue.empty, TextEditingValue(text: numeroController.text));
+        TextEditingValue.empty,
+        TextEditingValue(text: numeroController.text),
+      );
       maskValidade.formatEditUpdate(
-          TextEditingValue.empty, TextEditingValue(text: validadeController.text));
+        TextEditingValue.empty,
+        TextEditingValue(text: validadeController.text),
+      );
     }
   }
 
@@ -58,8 +60,10 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
     if (numeroController.text.trim().length < 19 ||
         nomeController.text.trim().isEmpty ||
         validadeController.text.trim().length < 5) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Preencha todos os campos corretamente")),
+      showSnack(
+        context: context,
+        message: "Por favor, preencha todos os campos corretamente.",
+        isError: true,
       );
       return;
     }
@@ -76,11 +80,13 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
         .collection("cards");
 
     if (widget.cardId == null) {
-      await ref.add(cardData);
-      Navigator.pop(context);
-    } else {
-      await ref.doc(widget.cardId).update(cardData);
-      Navigator.pop(context);
+      ref.add(cardData);
+      showSnack(context: context, message: "Cartão adicionado com sucesso!");
+       Navigator.pushReplacementNamed(context, Routes.listCard);
+    }  else  {
+      ref.doc(widget.cardId).update(cardData);
+      showSnack(context: context, message: "Cartão atualizado com sucesso!");
+      Navigator.pushReplacementNamed(context, Routes.listCard);
     }
   }
 
@@ -117,7 +123,9 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
       appBar: AppBar(
-        title: Text(widget.cardId == null ? "Adicionar Cartão" : "Editar Cartão"),
+        title: Text(
+          widget.cardId == null ? "Adicionar Cartão" : "Editar Cartão",
+        ),
         backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
@@ -127,10 +135,7 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
           children: [
             const Text(
               "Dados do Cartão",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 20),
 
@@ -159,6 +164,7 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: _salvar,
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -197,23 +203,3 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,4 @@
+import 'package:ecommerce_my_store/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'editpayment_screen.dart';
@@ -125,18 +126,13 @@ class ListaCartoesPage extends StatelessWidget {
                       IconButton(
                         icon: const Icon(Icons.delete, color: Colors.red),
                         onPressed: () async {
-                          await FirebaseFirestore.instance
+                          FirebaseFirestore.instance
                               .collection("users")
                               .doc(userId)
                               .collection("cards")
                               .doc(id)
                               .delete();
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Cartão excluído com sucesso!"),
-                            ),
-                          );
+                           showSnack(context: context, message: "Cartão excluído com sucesso!",isError: true );
                         },
                       ),
                     ],

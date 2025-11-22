@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'listadress_screen.dart';
+import 'package:ecommerce_my_store/widgets/snackbar.dart';
+import 'package:ecommerce_my_store/routes/routes.dart';
 
 class EditarEnderecoPage extends StatefulWidget {
   final Map<String, dynamic>? enderecoData;
@@ -66,6 +68,7 @@ class _EditarEnderecoPageState extends State<EditarEnderecoPage> {
       "numero": numeroController.text.trim(),
       "cidade": cidadeController.text.trim(),
       "cep": cepController.text.trim(),
+      
     };
 
     final ref = FirebaseFirestore.instance
@@ -74,21 +77,19 @@ class _EditarEnderecoPageState extends State<EditarEnderecoPage> {
         .collection("enderecos");
 
     if (widget.enderecoId == null) {
-      await ref.add(data);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Endereço salvo com sucesso!")),
-      );
-
-      Navigator.pop(context);
+      ref.add(data);
+    showSnack(
+      context: context,
+      message: "Endereço salvo com sucesso!",
+      isError: false,);
+      Navigator.pushReplacementNamed(context, Routes.listAdress);
     } else {
-      await ref.doc(widget.enderecoId).update(data);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Endereço atualizado com sucesso!")),
-      );
-
-      Navigator.pop(context);
+       ref.doc(widget.enderecoId).update(data);
+      showSnack(
+        context: context,
+        message: "Endereço atualizado com sucesso!",
+        isError: false,);
+      Navigator.pushReplacementNamed(context, Routes.listAdress);
     }
   }
 
