@@ -26,10 +26,6 @@ class CustomBottomNavBar extends StatelessWidget {
           icon: Icon(Icons.favorite),
           label: 'Favoritos',
         ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.shopping_cart_checkout_rounded), 
-        //   label: 'Carrinho'
-        // ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person_rounded), 
           label: 'Eu'

@@ -1,3 +1,5 @@
+import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -76,11 +78,13 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
         .collection("cards");
 
     if (widget.cardId == null) {
-      await ref.add(cardData);
-      Navigator.pop(context);
+      ref.add(cardData);
+      showSnack(context: context, message: "Cartão adicionado com sucesso!");
+      Navigator.pushReplacementNamed(context, Routes.listCard);
     } else {
-      await ref.doc(widget.cardId).update(cardData);
-      Navigator.pop(context);
+      ref.doc(widget.cardId).update(cardData);
+      showSnack(context: context, message: "Cartão atualizado com sucesso!");
+      Navigator.pushReplacementNamed(context, Routes.listCard);
     }
   }
 
@@ -176,9 +180,9 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacementNamed(
                     context,
-                    MaterialPageRoute(builder: (_) => const ListaCartoesPage()),
+                    Routes.listCard,
                   );
                 },
                 style: OutlinedButton.styleFrom(

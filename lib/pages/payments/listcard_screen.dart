@@ -1,3 +1,4 @@
+import 'package:ecommerce_my_store/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'editpayment_screen.dart';
@@ -29,10 +30,7 @@ class ListaCartoesPage extends StatelessWidget {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const EditarPagamentoPage()),
-          );
+          final result = await Navigator.pushReplacementNamed(context, Routes.editPayment);
 
           if (result != null) {
             ScaffoldMessenger.of(context).showSnackBar(

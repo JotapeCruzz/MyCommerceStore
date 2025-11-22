@@ -61,10 +61,7 @@ class _PerfilPageState extends State<PerfilPage> {
                         const SizedBox(height: 8),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => EditarPerfilPage()),
-                            );
+                            Navigator.pushReplacementNamed(context, Routes.editProfile);
                           },
                           child: const Text('Editar Perfil'),
                         ),
@@ -86,10 +83,9 @@ class _PerfilPageState extends State<PerfilPage> {
                 subtitle: const Text('Gerencie seus endereços de entrega'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushReplacementNamed(
                     context,
-                    MaterialPageRoute(builder: (_) => const EditarEnderecoPage()),
-                  );
+                    Routes.editAdress,);
                 },
               ),
             ),
@@ -105,11 +101,9 @@ class _PerfilPageState extends State<PerfilPage> {
 
                 // ⭐ AQUI ESTÁ A CORREÇÃO ⭐
                 onTap: () async {
-                  final result = await Navigator.push(
+                  final result = await Navigator.pushReplacementNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const EditarPagamentoPage(),
-                    ),
+                    Routes.editPayment,
                   );
 
                   if (result != null) {
@@ -130,10 +124,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 subtitle: const Text('Dúvidas frequentes e suporte'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const SupportScreen()),
-                  );
+                  Navigator.pushReplacementNamed(context, Routes.support);
                 },
               ),
             ),
@@ -147,10 +138,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 subtitle: const Text('Saiba como protegemos seus dados'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()),
-                  );
+                  Navigator.pushReplacementNamed(context, Routes.policyPrivacy);
                 },
               ),
             ),
@@ -175,7 +163,7 @@ class _PerfilPageState extends State<PerfilPage> {
         ),
       ),
       bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 0,
+        currentIndex: 2,
         onTap: (index) {
           switch (index) {
             case 0:

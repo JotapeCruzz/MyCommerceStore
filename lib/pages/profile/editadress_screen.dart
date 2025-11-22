@@ -1,3 +1,5 @@
+import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -74,21 +76,20 @@ class _EditarEnderecoPageState extends State<EditarEnderecoPage> {
         .collection("enderecos");
 
     if (widget.enderecoId == null) {
-      await ref.add(data);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Endereço salvo com sucesso!")),
+      ref.add(data);
+      showSnack(
+        context: context,
+        message: "Endereço salvo com sucesso!",
+        isError: false,
       );
-
-      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, Routes.listAdress);
     } else {
-      await ref.doc(widget.enderecoId).update(data);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Endereço atualizado com sucesso!")),
-      );
-
-      Navigator.pop(context);
+      ref.doc(widget.enderecoId).update(data);
+      showSnack(
+        context: context,
+        message: "Endereço atualizado com sucesso!",
+        isError: false,);
+      Navigator.pushReplacementNamed(context, Routes.listAdress);
     }
   }
 
@@ -182,11 +183,7 @@ class _EditarEnderecoPageState extends State<EditarEnderecoPage> {
                 width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const ListaEnderecosPage()),
-                    );
+                    Navigator.pushReplacementNamed(context, Routes.listAdress);
                   },
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),

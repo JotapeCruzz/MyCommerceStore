@@ -1,6 +1,6 @@
 import 'package:ecommerce_my_store/data/http/http_client.dart';
 import 'package:ecommerce_my_store/data/repositories/product_repository.dart';
-import 'package:ecommerce_my_store/pages/home/components/body.dart';
+import 'package:ecommerce_my_store/pages/home/components/categories.dart';
 import 'package:ecommerce_my_store/pages/stores/product_store.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -54,101 +54,26 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: CustomDrawer(user: FirebaseAuth.instance.currentUser!),
-      body: Body(), //AnimatedBuilder(
-      //   animation: Listenable.merge([
-      //     store.isLoading,
-      //     store.erro,
-      //     store.state,
-      //   ]),
-      //   builder: (context, child) {
-      //     if (store.isLoading.value) {
-      //       return const CircularProgressIndicator();
-      //     }
-      
-      //     if (store.erro.value.isNotEmpty) {
-      //       return Center(
-      //         child: Text(
-      //           store.erro.value,
-      //           style: TextStyle(
-      //             color: Palette.blackColor,
-      //             fontWeight: FontWeight.bold,
-      //             fontSize: 20,
-      //           ),
-      //           textAlign: TextAlign.center,
-      //         ),
-      //       );
-      //     }
-      
-      //     if (store.state.value.isEmpty) {
-      //       return const Center(
-      //         child: Text(
-      //           'Nenhum item na lista',
-      //           style: TextStyle(
-      //             color: Palette.blackColor,
-      //             fontWeight: FontWeight.bold,
-      //             fontSize: 20,
-      //           ),
-      //           textAlign: TextAlign.center,
-      //         ),
-      //       );
-      //     } else {
-      //       return ListView.separated(
-      //         separatorBuilder: (context, index) =>
-      //             const SizedBox(height: 32),
-      //         padding: const EdgeInsets.all(16),
-      //         itemCount: store.state.value.length,
-      //         itemBuilder: (_, index) {
-      //           final item = store.state.value[index];
-      //           return Column(children: [
-      //               ClipRRect(
-      //                 borderRadius: BorderRadius.circular(16),
-      //                 child: Image.network(
-      //                   item.img,
-      //                   fit: BoxFit.cover,
-      //                 ),
-      //               ),
-      //               ListTile(
-      //                 contentPadding: EdgeInsets.zero,
-      //                 title: Text(
-      //                   item.title,
-      //                   style: TextStyle(
-      //                     color: Palette.blackColor,
-      //                     fontWeight: FontWeight.bold,
-      //                     fontSize: 24,
-      //                   ),
-      //                 ),
-      //                 subtitle: Column(
-      //                   crossAxisAlignment: CrossAxisAlignment.start,
-      //                   children: [
-      //                     Text(
-      //                       'R\$ ${item.price}',
-      //                       style: TextStyle(
-      //                         color: Palette.gradient3,
-      //                         fontWeight: FontWeight.bold,
-      //                         fontSize: 20,
-      //                       ),
-      //                     ),
-      //                     const SizedBox(height: 4,),
-      //                     Text(
-      //                       item.description,
-      //                       style: TextStyle(
-      //                         color: Palette.gradient3,
-      //                         fontWeight: FontWeight.bold,
-      //                         fontSize: 18,
-      //                       ),
-      //                       overflow: TextOverflow.ellipsis,
-      //                       maxLines: 2,
-      //                     ),
-      //                   ],
-      //                 ),
-      //               ),
-      //             ],
-      //           );
-      //         },
-      //       );
-      //     }
-      //   },
-      // ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0),
+            child: Text(
+              "Produtos",
+              style: TextStyle(
+                color: Palette.gradient3,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          Categories(),
+          Expanded(child: ProductsView(store: store),
+          ),
+          
+        ],
+      ),
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: 0,
         onTap: (index) {
@@ -164,6 +89,97 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
       ),
+    );
+  }
+}
+
+class ProductsView extends StatelessWidget {
+  const ProductsView({super.key, required this.store});
+
+  final ProductStore store;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: Listenable.merge([store.isLoading, store.erro, store.state,]),
+      builder: (context, child) {
+        if (store.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (store.erro.value.isNotEmpty) {
+          return Center(
+            child: Text(
+              store.erro.value,
+              style: TextStyle(
+                color: Palette.blackColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          );
+        }
+
+        if (store.state.value.isEmpty) {
+          return const Center(
+            child: Text(
+              'Nenhum item na lista',
+              style: TextStyle(
+                color: Palette.blackColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.75,
+                mainAxisSpacing: 20,
+                crossAxisSpacing: 20
+              ),
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              itemCount: store.state.value.length,
+              itemBuilder: (_, index) {
+                final item = store.state.value[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      height: 180,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Image.network(item.img,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        item.title,
+                        style: TextStyle(color: Palette.blackColor),
+                        maxLines: 2,
+                      ),
+                    ),
+                    Text(
+                      'R\$ ${item.price}',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        }
+      },
     );
   }
 }
