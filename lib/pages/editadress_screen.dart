@@ -6,6 +6,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'listadress_screen.dart';
 import 'package:ecommerce_my_store/widgets/snackbar.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class EditarEnderecoPage extends StatefulWidget {
   final Map<String, dynamic>? enderecoData;
@@ -121,83 +122,89 @@ class _EditarEnderecoPageState extends State<EditarEnderecoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
+    final ruaController = TextEditingController();
+    final numeroController = TextEditingController();
+    final cidadeController = TextEditingController();
+
+    // Máscara para CEP
+    final cepController = MaskedTextController(mask: '00000-000');
+
     return Scaffold(
-      backgroundColor: const Color(0xfff2f2f2),
-      appBar: AppBar(
-        title: Text(widget.enderecoId == null
-            ? "Adicionar Endereço"
-            : "Editar Endereço"),
-        backgroundColor: Colors.blue,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+      appBar: AppBar(title: const Text('Editar Endereço')),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
         child: Form(
           key: formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Dados do Endereço",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                ),
+
+              // RUA
+              TextFormField(
+                controller: ruaController,
+                decoration: const InputDecoration(labelText: 'Rua'),
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Digite a rua' : null,
+              ),
+              const SizedBox(height: 10),
+
+              // NÚMERO
+              TextFormField(
+                controller: numeroController,
+                decoration: const InputDecoration(labelText: 'Número'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Digite o número';
+                  }
+                  if (int.tryParse(value) == null) {
+                    return 'Digite apenas números';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 10),
+
+              // CIDADE
+              TextFormField(
+                controller: cidadeController,
+                decoration: const InputDecoration(labelText: 'Cidade'),
+                validator: (value) =>
+                    value == null || value.isEmpty ? 'Digite a cidade' : null,
+              ),
+              const SizedBox(height: 10),
+
+              // CEP COM MÁSCARA
+              TextFormField(
+                controller: cepController,
+                decoration: const InputDecoration(labelText: 'CEP'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Digite o CEP';
+                  }
+                  if (value.length != 9) {
+                    return 'CEP deve ter 8 números (XXXXX-XXX)';
+                  }
+                  return null;
+                },
               ),
 
               const SizedBox(height: 20),
 
-              _campoML("Rua", ruaController),
-              const SizedBox(height: 15),
-
-              _campoML("Número", numeroController,
-                  teclado: TextInputType.number, inputFormatters: [maskNumero]),
-              const SizedBox(height: 15),
-
-              _campoML("Cidade", cidadeController),
-              const SizedBox(height: 15),
-
-              _campoML("CEP", cepController,
-                  teclado: TextInputType.number, inputFormatters: [maskCep]),
-              const SizedBox(height: 30),
-
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _salvarEndereco,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  child: Text(
-                    widget.enderecoId == null
-                        ? "Salvar Endereço"
-                        : "Atualizar Endereço",
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 15),
-
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const ListaEnderecosPage()),
+              // BOTÃO SALVAR
+              ElevatedButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Endereço salvo com sucesso!'),
+                      ),
                     );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    side: const BorderSide(color: Colors.blue),
-                  ),
-                  child: const Text(
-                    "Meus Endereços",
-                    style: TextStyle(fontSize: 16, color: Colors.blue),
-                  ),
-                ),
+                  }
+                },
+                child: const Text('Salvar Endereço'),
               ),
             ],
           ),
@@ -206,6 +213,4 @@ class _EditarEnderecoPageState extends State<EditarEnderecoPage> {
     );
   }
 }
-
-
 

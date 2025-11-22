@@ -7,7 +7,6 @@ import 'package:ecommerce_my_store/services/auth_service.dart';
 import 'package:ecommerce_my_store/pages/editadress_screen.dart';
 import 'package:ecommerce_my_store/pages/policyprivace_screen.dart';
 import 'package:ecommerce_my_store/pages/editprofile_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
 
 class PerfilPage extends StatefulWidget {
@@ -107,9 +106,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 onTap: () async {
                   final result = await Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const EditarPagamentoPage(),
-                    ),
+                    MaterialPageRoute(builder: (_) => const EditarPagamentoPage()),
                   );
 
                   if (result != null) {
