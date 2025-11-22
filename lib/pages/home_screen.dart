@@ -55,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: (index) {
           switch (index) {
             case 0:
-              Navigator.pushReplacementNamed(context, Routes.home);
               break;
             case 1:
               Navigator.pushReplacementNamed(context, Routes.favorites);
