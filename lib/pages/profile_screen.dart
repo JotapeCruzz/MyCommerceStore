@@ -8,6 +8,7 @@ import 'package:ecommerce_my_store/pages/editadress_screen.dart';
 import 'package:ecommerce_my_store/pages/policyprivace_screen.dart';
 import 'package:ecommerce_my_store/pages/editprofile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
 
 class PerfilPage extends StatefulWidget {
   final User user;
@@ -21,7 +22,14 @@ class _PerfilPageState extends State<PerfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Meu Perfil'), centerTitle: true),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushReplacementNamed(context, Routes.home);
+          }, 
+          icon: Icon(Icons.arrow_back_rounded)),
+        title: const Text('Meu Perfil'), 
+        centerTitle: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -165,6 +173,21 @@ class _PerfilPageState extends State<PerfilPage> {
             const SizedBox(height: 20),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: 0,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, Routes.home);
+              break;
+            case 1:
+              Navigator.pushReplacementNamed(context, Routes.favorites);
+              break;
+            case 2:
+              break;
+          }
+        },
       ),
     );
   }

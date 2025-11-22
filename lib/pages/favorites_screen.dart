@@ -11,10 +11,11 @@ class FavoritosPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
-            Navigator.pushReplacementNamed(context, Routes.home);
-          }, 
-          icon: Icon(Icons.arrow_back_rounded)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_rounded),
+        ),
         backgroundColor: Palette.appBarColor,
         title: Text('Meus Favoritos'),
         centerTitle: true,
@@ -28,7 +29,6 @@ class FavoritosPage extends StatelessWidget {
               Navigator.pushReplacementNamed(context, Routes.home);
               break;
             case 1:
-              Navigator.pushReplacementNamed(context, Routes.favorites);
               break;
             case 2:
               Navigator.pushReplacementNamed(context, Routes.perfilPage);
