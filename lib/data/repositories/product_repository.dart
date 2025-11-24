@@ -34,6 +34,7 @@ class ProductRepository implements IProductRepository {
     }
   }
 
+  @override
   Future<ProdutoModel> getProductsbyId(int id) async {
     final response = await client.get(
       url: 'https://fakestoreapi.com/products/${id}',
