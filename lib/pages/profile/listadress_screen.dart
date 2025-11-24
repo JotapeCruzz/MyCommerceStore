@@ -1,3 +1,4 @@
+import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,9 +13,15 @@ class ListaEnderecosPage extends StatelessWidget {
     final userId = FirebaseAuth.instance.currentUser!.uid;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Meus Endereços"),
-        backgroundColor: Colors.blue,
+     appBar: AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushReplacementNamed(context, Routes.home);
+          }, 
+          icon: Icon(Icons.arrow_back_rounded)),
+        backgroundColor: Palette.appBarColor,
+        title: Text('Meus Endereços'),
+        centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance

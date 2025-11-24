@@ -1,4 +1,5 @@
 import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:ecommerce_my_store/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -124,10 +125,14 @@ class _EditarEnderecoPageState extends State<EditarEnderecoPage> {
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
       appBar: AppBar(
-        title: Text(widget.enderecoId == null
-            ? "Adicionar Endereço"
-            : "Editar Endereço"),
-        backgroundColor: Colors.blue,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushReplacementNamed(context, Routes.home);
+          }, 
+          icon: Icon(Icons.arrow_back_rounded)),
+        backgroundColor: Palette.appBarColor,
+        title: Text('Editar Endereço'),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

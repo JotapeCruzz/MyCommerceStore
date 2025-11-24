@@ -1,6 +1,12 @@
+import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/widgets/snackbar.dart';
+
 
 class EditarPerfilPage extends StatefulWidget {
   const EditarPerfilPage({super.key});
@@ -10,12 +16,26 @@ class EditarPerfilPage extends StatefulWidget {
 }
 
 class _EditarPerfilPageState extends State<EditarPerfilPage> {
-  final _nomeController = TextEditingController();
-  final _telefoneController = TextEditingController();
-  final _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
+  // Controllers
+  final _usuarioController = TextEditingController();
+  final _nomeController = TextEditingController();
+  final _sobrenomeController = TextEditingController();
+  final _telefoneController = TextEditingController();
+  final _nascimentoController = TextEditingController();
+  final _cpfController = TextEditingController();
+
+  // Variáveis
+  String? _generoSelecionado;
   bool _loading = false;
+
   final user = FirebaseAuth.instance.currentUser;
+
+  // Máscaras
+  final maskTelefone = MaskTextInputFormatter(mask: '(##) #####-####');
+  final maskCPF = MaskTextInputFormatter(mask: '###.###.###-##');
+  final maskNascimento = MaskTextInputFormatter(mask: '##/##/####');
 
   @override
   void initState() {
@@ -23,6 +43,7 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
     _carregarDados();
   }
 
+  // ================= CARREGAR DADOS DO FIREBASE =================
   Future<void> _carregarDados() async {
     final doc = await FirebaseFirestore.instance
         .collection("users")
@@ -31,194 +52,206 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
 
     final data = doc.data();
 
-    _nomeController.text = data?["nome"] ?? "";
-    _telefoneController.text = data?["telefone"] ?? "";
-    _emailController.text = user!.email ?? "";
+    if (data != null) {
+      _usuarioController.text = data["usuario"] ?? "";
+      _nomeController.text = data["nome"] ?? "";
+      _sobrenomeController.text = data["sobrenome"] ?? "";
+      _telefoneController.text = data["telefone"] ?? "";
+      _cpfController.text = data["cpf"] ?? "";
+      _nascimentoController.text = data["dataNascimento"] ?? "";
+      _generoSelecionado = data["genero"];
+    }
 
     setState(() {});
   }
 
+  // ================= SALVAR FIREBASE =================
   Future<void> _salvar() async {
+    if (!_formKey.currentState!.validate()) return;
+
     setState(() => _loading = true);
 
     try {
-      // Atualiza nome + telefone no Firestore
-      await FirebaseFirestore.instance.collection("users").doc(user!.uid).update({
+      FirebaseFirestore.instance.collection("users").doc(user!.uid).update({
+        "usuario": _usuarioController.text.trim(),
         "nome": _nomeController.text.trim(),
+        "sobrenome": _sobrenomeController.text.trim(),
         "telefone": _telefoneController.text.trim(),
+        "cpf": _cpfController.text.trim(),
+        "dataNascimento": _nascimentoController.text.trim(),
+        "genero": _generoSelecionado,
       });
-
-      final novoEmail = _emailController.text.trim();
-
-      // Atualiza email SOMENTE se mudou
-      if (novoEmail != user!.email) {
-        try {
-          //await user!.updateEmail(novoEmail);// ERRO AQUI!!!
-
-          // salva email também no Firestore
-          await FirebaseFirestore.instance
-              .collection("users")
-              .doc(user!.uid)
-              .update({"email": novoEmail});
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'requires-recent-login') {
-            final ok = await _reauthenticateWithPasswordDialog();
-
-            if (ok) {
-              //await user!.updateEmail(novoEmail); ERRO AQUI!!!
-
-              await FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(user!.uid)
-                  .update({"email": novoEmail});
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                    content:
-                        Text("Não foi possível atualizar o email. Reautenticação necessária.")),
-              );
-            }
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Erro ao atualizar o email: ${e.message}")),
-            );
-          }
-        }
-      }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Informações atualizadas!")),
+        showSnack(
+        context: context,
+        message: "Perfil atualizado com sucesso!",
+        isError: false,
       );
+      Navigator.pushReplacementNamed(context, Routes.perfilPage);
+
+     
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Erro: $e")),
+        showSnack(
+        context: context,
+        message: "Erro ao atualizar perfil: $e",
+        isError: true,
       );
+      Navigator.pushReplacementNamed(context, Routes.perfilPage);
     } finally {
       setState(() => _loading = false);
     }
   }
 
-  /// Diálogo para pedir a senha ao usuário e tentar reautenticar
-  Future<bool> _reauthenticateWithPasswordDialog() async {
-    final passwordController = TextEditingController();
-    bool sucesso = false;
-
-    final confirm = await showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text("Reautenticação necessária"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text("Para alterar o email, digite sua senha atual:"),
-            const SizedBox(height: 12),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: "Senha",
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text("Cancelar"),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text("Confirmar"),
-          ),
-        ],
-      ),
-    );
-
-    if (confirm != true) return false;
-
-    try {
-      final cred = EmailAuthProvider.credential(
-        email: user!.email!,
-        password: passwordController.text.trim(),
-      );
-
-      final result = await user!.reauthenticateWithCredential(cred);
-
-      if (result.user != null) sucesso = true;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Senha incorreta.")),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Erro: ${e.message}")),
-        );
-      }
-    }
-
-    return sucesso;
-  }
-
+  // =================== TELA ===================
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
       appBar: AppBar(
-        title: const Text("Editar Perfil"),
-        backgroundColor: Colors.blue,
-      ),
+          leading: IconButton(
+            onPressed: (){
+              Navigator.pushReplacementNamed(context, Routes.home);
+            }, 
+            icon: Icon(Icons.arrow_back_rounded)),
+          backgroundColor: Palette.appBarColor,
+          title: Text('Editar Perfil'),
+          centerTitle: true,
+        ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Dados da Conta",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Dados Pessoais",
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                     ),
-                  ),
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
-                  _campoML("Nome de usuário", _nomeController),
-                  const SizedBox(height: 15),
+                    // Usuário
+                    _campoML(
+                      label: "Nome de usuário",
+                      controller: _usuarioController,
+                      validator: (v) =>
+                          v!.isEmpty ? "Digite um nome de usuário" : null,
+                    ),
+                    const SizedBox(height: 15),
 
-                  _campoML("Telefone", _telefoneController,
-                      teclado: TextInputType.phone),
-                  const SizedBox(height: 15),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _campoML(
+                            label: "Nome",
+                            controller: _nomeController,
+                            validator: (v) =>
+                                v!.isEmpty ? "Digite seu nome" : null,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: _campoML(
+                            label: "Sobrenome",
+                            controller: _sobrenomeController,
+                            validator: (v) =>
+                                v!.isEmpty ? "Digite seu sobrenome" : null,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
 
-                  _campoML("Email", _emailController,
-                      teclado: TextInputType.emailAddress),
-                  const SizedBox(height: 30),
+                    _campoML(
+                      label: "Data de nascimento",
+                      controller: _nascimentoController,
+                      inputFormatters: [maskNascimento],
+                      teclado: TextInputType.number,
+                      validator: (v) =>
+                          v!.length < 10 ? "Data inválida" : null,
+                    ),
+                    const SizedBox(height: 15),
 
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _salvar,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                    _campoML(
+                      label: "CPF",
+                      controller: _cpfController,
+                      inputFormatters: [maskCPF],
+                      teclado: TextInputType.number,
+                      validator: (v) =>
+                          v!.length < 14 ? "CPF inválido" : null,
+                    ),
+                    const SizedBox(height: 15),
+
+                    _campoML(
+                      label: "Telefone",
+                      controller: _telefoneController,
+                      inputFormatters: [maskTelefone],
+                      teclado: TextInputType.phone,
+                      validator: (v) =>
+                          v!.length < 15 ? "Telefone inválido" : null,
+                    ),
+                    const SizedBox(height: 15),
+
+                    // Dropdown Gênero
+                    Container(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.black12),
                       ),
-                      child: const Text(
-                        "Salvar",
-                        style: TextStyle(fontSize: 18),
+                      child: DropdownButtonFormField<String>(
+                        initialValue: _generoSelecionado,
+                        decoration: const InputDecoration(
+                          labelText: "Gênero",
+                          border: InputBorder.none,
+                        ),
+                        items: const [
+                          DropdownMenuItem(
+                              value: "Masculino", child: Text("Masculino")),
+                          DropdownMenuItem(
+                              value: "Feminino", child: Text("Feminino")),
+                          DropdownMenuItem(value: "Outro", child: Text("Outro")),
+                        ],
+                        onChanged: (v) => setState(() => _generoSelecionado = v),
+                        validator: (v) =>
+                            v == null ? "Selecione um gênero" : null,
                       ),
                     ),
-                  ),
-                ],
+
+                    const SizedBox(height: 30),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _salvar,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        child: const Text(
+                          "Salvar",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
     );
   }
 
-  Widget _campoML(String label, TextEditingController controller,
-      {TextInputType teclado = TextInputType.text}) {
+  // ================= CAMPO PADRÃO ML =================
+  Widget _campoML({
+    required String label,
+    required TextEditingController controller,
+    TextInputType teclado = TextInputType.text,
+    List<TextInputFormatter>? inputFormatters,
+    String? Function(String?)? validator,
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3),
       decoration: BoxDecoration(
@@ -226,9 +259,11 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.black12),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         keyboardType: teclado,
+        inputFormatters: inputFormatters,
+        validator: validator,
         decoration: InputDecoration(
           labelText: label,
           border: InputBorder.none,
