@@ -83,13 +83,13 @@ class _ProductsViewState extends State<ProductsView> {
                         child: Container(
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: Colors.grey,
+                            color: Palette.appBarColor,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Image.network(
                             item.img,
-                            width: 160,
-                            height: 180,
+                            width: 200,
+                            height: 200,
                           ),
                         ),
                       ),
@@ -98,7 +98,7 @@ class _ProductsViewState extends State<ProductsView> {
                         child: Text(
                           item.title,
                           style: TextStyle(color: Palette.blackColor),
-                          maxLines: 2,
+                          maxLines: 1,
                         ),
                       ),
                       Text(
