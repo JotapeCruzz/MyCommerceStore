@@ -17,9 +17,8 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'MyStore',
       debugShowCheckedModeBanner: false,
-      home: MainApp(),
-      // routes: Routes.routeMaps,
-      // initialRoute: Routes.rooter,
+      routes: Routes.routeMaps,
+      initialRoute: Routes.rooter,
     );
   }
 }
