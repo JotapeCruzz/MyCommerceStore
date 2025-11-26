@@ -17,7 +17,7 @@ class ProductRepository implements IProductRepository {
 
   @override
   Future<List<ProdutoModel>> getProducts() async {
-    final response = await client.get(url: 'https://fakestoreapi.com/products');
+    final response = await client.get(url: 'https://api.escuelajs.co/api/v1/products');
 
     if (response.statusCode == 200) {
       final List<dynamic> body = jsonDecode(response.body);
@@ -37,7 +37,7 @@ class ProductRepository implements IProductRepository {
   @override
   Future<ProdutoModel> getProductsbyId(int id) async {
     final response = await client.get(
-      url: 'https://fakestoreapi.com/products/${id}',
+      url: 'https://api.escuelajs.co/api/v1/products/${id}',
     );
 
     if (response.statusCode == 200) {

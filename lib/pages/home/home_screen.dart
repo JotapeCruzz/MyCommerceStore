@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_my_store/data/http/http_client.dart';
+import 'package:ecommerce_my_store/data/models/product_model.dart';
 import 'package:ecommerce_my_store/data/repositories/product_repository.dart';
 import 'package:ecommerce_my_store/pages/home/components/categories.dart';
 import 'package:ecommerce_my_store/pages/home/components/products_view.dart';
@@ -22,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ProdutoModel? product;
 
   final ProductStore store = ProductStore(
     repository: ProductRepository(client: HttpClient()),
@@ -37,6 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          "Produtos",
+          style: TextStyle(
+            color: Palette.gradient3,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(left: 10, right: 5),
@@ -57,29 +67,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+        elevation: 0,
       ),
       drawer: CustomDrawer(user: FirebaseAuth.instance.currentUser!),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0),
-            child: Text(
-              "Produtos",
-              style: TextStyle(
-                color: Palette.gradient3,
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              ),
-            ),
-          ),
           Categories(),
           Expanded(
             child: ProductsView(
               press: (product) => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProductDetails(productId: product.id),
+                  builder: (context) => ProductDetails(productId: product.id, product: product,),
                 ),
               ),
             ),

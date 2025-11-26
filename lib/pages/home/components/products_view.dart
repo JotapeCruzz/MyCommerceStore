@@ -81,15 +81,15 @@ class _ProductsViewState extends State<ProductsView> {
                     children: <Widget>[
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: Palette.appBarColor,
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: Image.network(
-                            item.img,
-                            width: 200,
-                            height: 200,
+                          child:  ClipRRect(
+                            borderRadius: BorderRadius.circular(24),
+                            child: Image.network(
+                              item.images.first,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
@@ -102,7 +102,7 @@ class _ProductsViewState extends State<ProductsView> {
                         ),
                       ),
                       Text(
-                        'R\$ ${item.price}',
+                        'R\$ ${item.price.toStringAsFixed(2)}',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],

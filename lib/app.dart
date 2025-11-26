@@ -17,6 +17,12 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'MyStore',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: Theme.of(context).textTheme.apply(
+          bodyColor: Palette.gradient3,
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity
+      ),
       routes: Routes.routeMaps,
       initialRoute: Routes.rooter,
     );

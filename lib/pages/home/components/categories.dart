@@ -50,7 +50,7 @@ class _CategoriesState extends State<Categories> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: selectedIndex == index
-                    ? Palette.blackColor
+                    ? Palette.gradient3
                     : const Color.fromARGB(255, 145, 141, 141),
               ),
             ),

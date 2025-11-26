@@ -10,14 +10,14 @@ AppBar buildAppBar(BuildContext context) {
             onPressed: (){
               Navigator.pop(context);
             }, 
-            icon: Icon(Icons.arrow_back_rounded),
+            icon: Icon(Icons.arrow_back_rounded, color: Colors.white,),
           ),
           actions: [
             IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, Routes.cart);
               },
-              icon: Icon(Icons.shopping_cart, color: Colors.black,),
+              icon: Icon(Icons.shopping_cart, color: Colors.white,),
             ),
             SizedBox(width: 10),
           ],
