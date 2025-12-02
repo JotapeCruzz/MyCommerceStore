@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 // Importa seu provider
-import '../providers/cart_provider.dart';
+import 'package:ecommerce_my_store/providers/cart_provider.dart';
 
 // Importa seu app principal
 import 'app.dart';

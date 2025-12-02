@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ecommerce_my_store/providers/cart_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
@@ -13,6 +15,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Carrega os itens do carrinho persistidos logo após o primeiro frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        Provider.of<CartProvider>(context, listen: false).loadPersistedCart();
+      } catch (e) {
+        // ignore: avoid_print
+        print('Erro ao carregar carrinho persistente: $e');
+      }
+    });
     // Retorna o widget principal do app: MaterialApp.
     return MaterialApp(
       title: 'MyStore',

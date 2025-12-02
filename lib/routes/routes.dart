@@ -69,6 +69,5 @@ class Routes {
     perfilPage: (context) => PerfilPage(user: FirebaseAuth.instance.currentUser!),
     listCard: (context) => const ListaCartoesPage(),
     listAdress: (context) => const ListaEnderecosPage(),
-
   };
 }

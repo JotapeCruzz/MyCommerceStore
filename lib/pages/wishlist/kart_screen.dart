@@ -32,7 +32,6 @@ class CartScreen extends StatelessWidget {
     // Provider escutando mudanças do carrinho.
     // Sempre que cart for alterado, a tela reconstruirá automaticamente.
     //
-    // DICA (4.2): Sempre usar context.watch quando você quer que a UI atualize.
     final cart = context.watch<CartProvider>();
 
     return Scaffold(

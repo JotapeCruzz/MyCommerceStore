@@ -4,6 +4,8 @@ import 'package:ecommerce_my_store/data/http/http_client.dart';
 import 'package:ecommerce_my_store/data/repositories/product_repository.dart';
 import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ecommerce_my_store/providers/cart_provider.dart';
 
 class ProductsView extends StatefulWidget {
   final Function(ProdutoModel product) press;
@@ -101,9 +103,26 @@ class _ProductsViewState extends State<ProductsView> {
                           maxLines: 1,
                         ),
                       ),
-                      Text(
-                        'R\$ ${item.price.toStringAsFixed(2)}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'R\$ ${item.price.toStringAsFixed(2)}',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          IconButton(
+                            tooltip: 'Adicionar ao carrinho',
+                            icon: const Icon(Icons.add_shopping_cart_outlined),
+                            onPressed: () {
+                              final cart = Provider.of<CartProvider>(context, listen: false);
+                              cart.addItem(item.title, item.price, item.images.isNotEmpty ? item.images.first : '');
+                              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Produto adicionado ao carrinho')),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),

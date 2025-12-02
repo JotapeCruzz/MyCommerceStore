@@ -1,5 +1,7 @@
 import 'package:ecommerce_my_store/data/models/product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ecommerce_my_store/providers/cart_provider.dart';
 
 import '../../../../widgets/colors.dart';
 
@@ -19,7 +21,13 @@ class AddToCart extends StatelessWidget {
       ),
       child: IconButton(
         onPressed: () {
-          // Adicionar ao carrinho
+          // Adicionar ao carrinho com Provider
+          final cart = Provider.of<CartProvider>(context, listen: false);
+          cart.addItem(product.title, product.price, product.images.isNotEmpty ? product.images.first : '');
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Produto adicionado ao carrinho!')),
+          );
         },
         icon: Icon(Icons.add_shopping_cart_rounded, color: Palette.appBarColor),
       ),

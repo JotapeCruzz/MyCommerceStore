@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Classe que representa um item dentro do carrinho do usuário.
 class CartItem {
@@ -25,30 +27,30 @@ class CartItem {
     required this.imageUrl,
     required this.quantity,
   });
+
+  // Serialize to Map for persistence
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'title': title,
+        'price': price,
+        'imageUrl': imageUrl,
+        'quantity': quantity,
+      };
+
+  // Deserialize from Map
+  factory CartItem.fromMap(Map<String, dynamic> map) => CartItem(
+        id: map['id'] as String,
+        title: map['title'] as String,
+        price: (map['price'] as num).toDouble(),
+        imageUrl: map['imageUrl'] as String,
+        quantity: (map['quantity'] as num).toInt(),
+      );
 }
 
 // Provider responsável por gerenciar o estado do carrinho.
 class CartProvider with ChangeNotifier {
   // Lista privada que armazena os itens atuais do carrinho.
-  final List<CartItem> _items = [
-    // Item de teste para simular um produto 1.
-    CartItem(
-      id: '1',
-      title: 'Produto 1',
-      price: 99.99,
-      imageUrl: 'https://picsum.photos/200',
-      quantity: 1,
-    ),
-
-    // Item de teste para simular um produto 2.
-    CartItem(
-      id: '2',
-      title: 'Produto 2',
-      price: 149.99,
-      imageUrl: 'https://picsum.photos/200',
-      quantity: 1,
-    ),
-  ];
+  List<CartItem> _items = [];
 
   // Getter que retorna uma cópia da lista de itens do carrinho.
   List<CartItem> get items => [..._items];
@@ -63,19 +65,32 @@ class CartProvider with ChangeNotifier {
 
   // Método que adiciona um novo item ao carrinho.
   void addItem(String title, double price, String imageUrl) {
-    // Adiciona um item novo com quantidade padrão igual a 1.
-    _items.add(
-      CartItem(
-        id: DateTime.now().toString(), // Gera ID único baseado no horário.
-        title: title,
-        price: price,
-        imageUrl: imageUrl,
-        quantity: 1,
-      ),
-    );
+    // Caso já exista um item com o mesmo título, apenas incrementa a quantidade
+    final existingIndex = _items.indexWhere((p) => p.title == title);
+    if (existingIndex >= 0) {
+      final existing = _items[existingIndex];
+      _items[existingIndex] = CartItem(
+        id: existing.id,
+        title: existing.title,
+        price: existing.price,
+        imageUrl: existing.imageUrl,
+        quantity: existing.quantity + 1,
+      );
+    } else {
+      _items.add(
+        CartItem(
+          id: DateTime.now().toString(), // Gera ID único baseado no horário.
+          title: title,
+          price: price,
+          imageUrl: imageUrl,
+          quantity: 1,
+        ),
+      );
+    }
 
     // Notifica os listeners que houve alteração no carrinho.
     notifyListeners();
+    _saveCart();
   }
 
   // Método que remove um item específico com base no seu ID.
@@ -85,6 +100,7 @@ class CartProvider with ChangeNotifier {
 
     // Notifica que o carrinho foi atualizado.
     notifyListeners();
+    _saveCart();
   }
 
   // Método que atualiza a quantidade de um item existente.
@@ -110,6 +126,7 @@ class CartProvider with ChangeNotifier {
 
       // Notifica listeners para atualização da interface.
       notifyListeners();
+      _saveCart();
     }
   }
 
@@ -120,5 +137,40 @@ class CartProvider with ChangeNotifier {
 
     // Notifica que o carrinho foi esvaziado.
     notifyListeners();
+    _saveCart();
+  }
+
+  // ------------------------------------------------------------------
+  // Persistence using SharedPreferences
+  // ------------------------------------------------------------------
+  static const _kPrefsKey = 'cart_items_v1';
+
+  // Loads the cart items from SharedPreferences and notifies listeners.
+  Future<void> _loadCart() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString(_kPrefsKey);
+    if (data != null && data.isNotEmpty) {
+      try {
+        final decoded = jsonDecode(data) as List<dynamic>;
+        _items = decoded
+            .map((e) => CartItem.fromMap(Map<String, dynamic>.from(e)))
+            .toList();
+        notifyListeners();
+      } catch (e) {
+        // ignore parse errors and keep empty list
+      }
+    }
+  }
+
+  // Saves the cart items into SharedPreferences
+  Future<void> _saveCart() async {
+    final prefs = await SharedPreferences.getInstance();
+    final encoded = jsonEncode(_items.map((e) => e.toMap()).toList());
+    await prefs.setString(_kPrefsKey, encoded);
+  }
+
+  // Public method to initialize/load (callable after provider is created)
+  void loadPersistedCart() {
+    _loadCart();
   }
 }
