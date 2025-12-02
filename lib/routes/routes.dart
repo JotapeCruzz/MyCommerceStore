@@ -1,3 +1,4 @@
+
 import 'package:ecommerce_my_store/pages/home/components/products_view.dart';
 import 'package:ecommerce_my_store/pages/home/details/details_screen.dart';
 import 'package:flutter/material.dart';
@@ -46,6 +47,7 @@ class Routes {
   static const String listCard = '/listCard';
   static const String listAdress = '/listAdress';
   static const String productDetails = '/product-details';
+  
 
   // Mapa de rotas do aplicativo: associa um nome de rota (String)
   // Esse mapa é usado dentro do MaterialApp (em app.dart).
@@ -67,5 +69,6 @@ class Routes {
     perfilPage: (context) => PerfilPage(user: FirebaseAuth.instance.currentUser!),
     listCard: (context) => const ListaCartoesPage(),
     listAdress: (context) => const ListaEnderecosPage(),
+
   };
 }

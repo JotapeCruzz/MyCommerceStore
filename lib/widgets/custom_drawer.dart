@@ -62,7 +62,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.pushNamed(context, Routes.policyPrivacy);
             },
           ),
-
           Divider(),
           ListTile(
             leading: Icon(Icons.logout_rounded),
