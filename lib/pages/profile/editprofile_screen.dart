@@ -107,13 +107,14 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
       appBar: AppBar(
+        elevation: 0,
           leading: IconButton(
             onPressed: (){
-              Navigator.pushReplacementNamed(context, Routes.home);
+              Navigator.popAndPushNamed(context, Routes.perfilPage);
             }, 
-            icon: Icon(Icons.arrow_back_rounded)),
+            icon: Icon(Icons.arrow_back_rounded, color: Colors.white,),),
           backgroundColor: Palette.appBarColor,
-          title: Text('Editar Perfil'),
+          title: Text('Editar Perfil', style: TextStyle(color: Palette.whiteColor, fontWeight: FontWeight.bold, fontSize: 24,),),
           centerTitle: true,
         ),
       body: _loading

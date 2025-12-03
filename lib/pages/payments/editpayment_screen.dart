@@ -1,4 +1,5 @@
 import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:ecommerce_my_store/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -121,8 +122,19 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
       appBar: AppBar(
-        title: Text(widget.cardId == null ? "Adicionar Cartão" : "Editar Cartão"),
-        backgroundColor: Colors.blue,
+        title: Text(widget.cardId == null ? "Adicionar Cartão" : "Editar Cartão", style: TextStyle(
+          color: Palette.whiteColor, 
+          fontWeight: FontWeight.bold, 
+          fontSize: 24,),),
+        backgroundColor: Palette.appBarColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.popAndPushNamed(context, Routes.perfilPage);
+          }, 
+          icon: Icon(Icons.arrow_back_rounded, color: Colors.white,),
+        ),
+        centerTitle: true
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

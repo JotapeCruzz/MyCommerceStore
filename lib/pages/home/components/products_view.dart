@@ -83,14 +83,17 @@ class _ProductsViewState extends State<ProductsView> {
                     children: <Widget>[
                       Expanded(
                         child: Container(
+                          padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
+                            color: Palette.appBarColor,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child:  ClipRRect(
                             borderRadius: BorderRadius.circular(24),
                             child: Image.network(
-                              item.images.first,
-                              fit: BoxFit.cover,
+                              item.img,
+                              width: 200,
+                              height: 200,
                             ),
                           ),
                         ),
@@ -115,7 +118,7 @@ class _ProductsViewState extends State<ProductsView> {
                             icon: const Icon(Icons.add_shopping_cart_outlined),
                             onPressed: () {
                               final cart = Provider.of<CartProvider>(context, listen: false);
-                              cart.addItem(item.title, item.price, item.images.isNotEmpty ? item.images.first : '');
+                              cart.addItem(item.title, item.price, item.img.isNotEmpty ? item.img : '');
                               ScaffoldMessenger.of(context).hideCurrentSnackBar();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Produto adicionado ao carrinho')),

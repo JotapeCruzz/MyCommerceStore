@@ -1,23 +1,22 @@
-import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
+import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:flutter/material.dart';
 
-// controlador pra guardar os dados do produto
+import '../../data/http/http_client.dart';
+import '../../data/models/product_model.dart';
+import '../../data/repositories/product_repository.dart';
+import 'product_store.dart';
+
+// controlador de dados do produto
 class ProductRegisterController extends ChangeNotifier {
   String name = '';
   String description = '';
   String category = 'Roupas';
   String imageUrl = '';
   double price = 0;
-  int stock = 0;           // agora é um número inteiro, não mais slider
+  int stock = 0;
   bool featured = false;
 
-  // só permite salvar se tiver nome e preço válidos
   bool get canSave => name.isNotEmpty && price > 0;
-
-  // simula o envio/salvamento
-  Future<void> save() async {
-    await Future.delayed(const Duration(seconds: 1));
-  }
 }
 
 // tela de cadastro de produto
@@ -29,6 +28,10 @@ class ProductRegisterScreen extends StatefulWidget {
 }
 
 class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
+  final ProductStore store = ProductStore(
+    repository: ProductRepository(client: HttpClient()),
+  );
+
   final _formKey = GlobalKey<FormState>();
   final _ctrl = ProductRegisterController();
 
@@ -36,7 +39,7 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
   final _descCtrl = TextEditingController();
   final _priceCtrl = TextEditingController();
   final _imageCtrl = TextEditingController();
-  final _stockCtrl = TextEditingController(); // novo campo para estoque
+  final _stockCtrl = TextEditingController();
 
   final _categories = const ['Roupas', 'Calçados', 'Acessórios', 'Eletrônicos'];
 
@@ -55,8 +58,7 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadastrar Produto'),
-        backgroundColor: Colors.blue,
-        
+        backgroundColor: Palette.appBarColor,
       ),
 
       body: SingleChildScrollView(
@@ -70,7 +72,7 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 16),
 
-              // nome do produto
+              // nome
               TextFormField(
                 controller: _nameCtrl,
                 decoration: const InputDecoration(
@@ -142,7 +144,7 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
               ),
               const SizedBox(height: 10),
 
-              // URL da imagem
+              // imagem
               TextFormField(
                 controller: _imageCtrl,
                 decoration: const InputDecoration(
@@ -153,7 +155,7 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
               ),
               const SizedBox(height: 10),
 
-              // quantidade em estoque (digitação manual)
+              // estoque
               TextFormField(
                 controller: _stockCtrl,
                 decoration: const InputDecoration(
@@ -173,7 +175,7 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
               ),
               const SizedBox(height: 10),
 
-              // checkbox: destaque
+              // destaque
               CheckboxListTile(
                 value: _ctrl.featured,
                 onChanged: (v) {
@@ -186,7 +188,7 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
               ),
               const SizedBox(height: 16),
 
-              // botão de salvar
+              // botão salvar
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
@@ -199,12 +201,21 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Salvando...'),
+                              content: Text('Enviando produto...'),
                               duration: Duration(seconds: 1),
                             ),
                           );
 
-                          await _ctrl.save();
+                          final produto = ProdutoModel(
+                            id: 0,
+                            title: _ctrl.name,
+                            price: _ctrl.price,
+                            description: _ctrl.description,
+                            category: _ctrl.category,
+                            img: _ctrl.imageUrl,
+                          );
+
+                          await store.createProduct(produto);
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -214,17 +225,12 @@ class _ProductRegisterScreenState extends State<ProductRegisterScreen> {
 
                           Navigator.pop(context);
                         },
-                        
                 ),
               ),
             ],
           ),
         ),
       ),
-
-      // Barra de navegação inferior personalizada
     );
-    
-    
   }
 }

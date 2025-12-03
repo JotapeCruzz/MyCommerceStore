@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../routes/routes.dart';
+import '../../widgets/colors.dart';
+
 class PrivacyPolicyScreen extends StatefulWidget {
   final String? policyText;
   final VoidCallback? onAccepted;
@@ -23,11 +26,20 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.popAndPushNamed(context, Routes.perfilPage);
+          }, 
+          icon: Icon(Icons.arrow_back_rounded, color: Colors.white,),),
+        backgroundColor: Palette.appBarColor,
         title: const Text(
           'Política de Privacidade',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,),
         ),
-        backgroundColor: Colors.blue,
         centerTitle: true,
       ),
 

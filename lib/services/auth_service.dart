@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:google_identity_services_web/google_identity_services_web.dart';
-import 'dart:js_interop';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 

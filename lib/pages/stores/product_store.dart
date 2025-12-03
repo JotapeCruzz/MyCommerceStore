@@ -47,4 +47,19 @@ class ProductStore {
 
     isLoading.value = false;
   }
+
+  Future<void> createProduct(ProdutoModel produto) async {
+  try {
+    isLoading.value = true;
+    erro.value = "";
+
+    final novoProduto = await repository.postProduct(produto);
+
+    state.value = [...state.value, novoProduto];
+  } catch (e) {
+    erro.value = e.toString();
+  } finally {
+    isLoading.value = false;
+  }
+}
 }

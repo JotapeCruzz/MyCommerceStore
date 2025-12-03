@@ -1,6 +1,8 @@
 import 'package:ecommerce_my_store/routes/routes.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/colors.dart';
+
 // controlador bem simples pra guardar os dados do form
 class SupportController extends ChangeNotifier {
   String name = '';
@@ -50,8 +52,18 @@ class _SupportScreenState extends State<SupportScreen> {
     // Scaffold é a base da tela (appBar, body, etc.)
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Suporte'),
-        backgroundColor: Colors.blue,
+        elevation: 0,
+        title: const Text('Suporte', style: TextStyle(
+          color: Palette.whiteColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 24,),),
+        leading: IconButton(
+          onPressed: (){
+            Navigator.popAndPushNamed(context, Routes.perfilPage);
+          }, 
+          icon: Icon(Icons.arrow_back_rounded, color: Colors.white,),),
+        backgroundColor: Palette.appBarColor,
+        centerTitle: true
       ),
 
       // botão flutuante: chat ainda em desenvolvimento

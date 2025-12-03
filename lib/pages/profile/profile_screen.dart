@@ -1,6 +1,7 @@
 import 'package:ecommerce_my_store/pages/payments/editpayment_screen.dart';
 import 'package:ecommerce_my_store/pages/others/support_screen.dart';
 import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ecommerce_my_store/services/auth_service.dart';
@@ -23,13 +24,16 @@ class _PerfilPageState extends State<PerfilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         leading: IconButton(
           onPressed: (){
-            Navigator.pushReplacementNamed(context, Routes.home);
+            Navigator.popAndPushNamed(context, Routes.home);
           }, 
-          icon: Icon(Icons.arrow_back_rounded)),
-        title: const Text('Meu Perfil'), 
+          icon: Icon(Icons.arrow_back_rounded, color: Colors.white,),),
+        title: const Text('Meu Perfil', style: TextStyle(color: Palette.whiteColor, fontWeight: FontWeight.bold, fontSize: 24,),), 
+        backgroundColor: Palette.appBarColor,
         centerTitle: true),
+        
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -50,7 +54,7 @@ class _PerfilPageState extends State<PerfilPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.user.displayName ?? "",
+                          widget.user.displayName?.toUpperCase() ?? "",
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -151,7 +155,7 @@ class _PerfilPageState extends State<PerfilPage> {
               child: ElevatedButton.icon(
                 onPressed: () {
                   AuthService().userLogout();
-                  Navigator.pushReplacementNamed(context, Routes.login);
+                  Navigator.popAndPushNamed(context, Routes.login);
                 },
                 icon: const Icon(Icons.logout),
                 label: const Text('Sair da Conta'),

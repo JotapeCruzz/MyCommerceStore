@@ -42,13 +42,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
             },
           ),
           ListTile(
-            title: Text('Pagamento'),
-            leading: Icon(Icons.payments_rounded),
-            onTap: () {
-              Navigator.pushNamed(context, Routes.pagamento);
-            },
-          ),
-          ListTile(
             title: Text('FAQ'),
             leading: Icon(Icons.question_answer_rounded),
             onTap: () {
@@ -68,7 +61,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: const Text("Sair"),
             onTap: () {
               AuthService().userLogout();
-              Navigator.pushReplacementNamed(context, Routes.login);
+              Navigator.popAndPushNamed(context, Routes.login);
             },
           ),
         ],

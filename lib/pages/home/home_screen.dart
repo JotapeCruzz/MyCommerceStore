@@ -13,7 +13,6 @@ import 'package:ecommerce_my_store/routes/routes.dart';
 import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:ecommerce_my_store/widgets/custom_drawer.dart';
 import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
-import 'package:google_identity_services_web/id.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

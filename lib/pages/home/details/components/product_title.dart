@@ -18,7 +18,7 @@ class ProdcutTitleWithImage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            product.category.name.toUpperCase(),
+            product.category.toUpperCase(),
             style: TextStyle(color: Palette.whiteColor),
           ),
           Text(
@@ -54,7 +54,7 @@ class ProdcutTitleWithImage extends StatelessWidget {
               SizedBox(width: 20),
               Expanded(
                 
-                child: Image.network(product.images.first, width: 210, height: 210,),
+                child: Image.network(product.img, width: 210, height: 210,),
               ),
             ],
           ),

@@ -1,39 +1,39 @@
-import 'category_model.dart';
-
 class ProdutoModel {
   final int id;
   final String title;
-  final String slug;
   final double price;
   final String description;
-  final CategoryModel category;
-  final List<String> images;
-  final String creationAt;
-  final String updatedAt;
+  final String category;
+  final String img;
 
   ProdutoModel({
     required this.id,
     required this.title,
-    required this.slug,
     required this.price,
     required this.description,
     required this.category,
-    required this.images,
-    required this.creationAt,
-    required this.updatedAt,
+    required this.img,
   });
 
   factory ProdutoModel.fromMap(Map<String, dynamic> mapProduto) {
     return ProdutoModel(
       id: mapProduto['id'],
       title: mapProduto['title'],
-      slug: mapProduto['slug'] ?? '',
       price: mapProduto['price'] * 1.0,
       description: mapProduto['description'],
-      category: CategoryModel.fromMap(mapProduto['category']),
-      images: List<String>.from(mapProduto['images']),
-      creationAt: mapProduto['creationAt'],
-      updatedAt: mapProduto['updatedAt'],
+      category: mapProduto['category'],
+      img: mapProduto['image'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'price': price,
+      'description': description,
+      'category': category,
+      'image': img,
+    };
   }
 }

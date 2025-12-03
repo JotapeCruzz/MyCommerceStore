@@ -1,4 +1,5 @@
 import 'package:ecommerce_my_store/routes/routes.dart';
+import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'editpayment_screen.dart';
@@ -21,16 +22,23 @@ class ListaCartoesPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Meus Cartões"),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+        backgroundColor: Palette.appBarColor,
+        title: Text('Meus Cartões', style: TextStyle(color: Palette.whiteColor, fontWeight: FontWeight.bold, fontSize: 24,),),
+        elevation: 0,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pushNamed(context, Routes.editPayment);
+          }, 
+          icon: Icon(Icons.arrow_back_rounded, color: Colors.white,),
+        ),
+        centerTitle: true
       ),
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         onPressed: () async {
-          final result = await Navigator.pushReplacementNamed(context, Routes.editPayment);
+          final result = await Navigator.popAndPushNamed(context, Routes.editPayment);
 
           if (result != null) {
             ScaffoldMessenger.of(context).showSnackBar(

@@ -23,7 +23,7 @@ class AddToCart extends StatelessWidget {
         onPressed: () {
           // Adicionar ao carrinho com Provider
           final cart = Provider.of<CartProvider>(context, listen: false);
-          cart.addItem(product.title, product.price, product.images.isNotEmpty ? product.images.first : '');
+          cart.addItem(product.title, product.price, product.img.isNotEmpty ? product.img : '');
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Produto adicionado ao carrinho!')),

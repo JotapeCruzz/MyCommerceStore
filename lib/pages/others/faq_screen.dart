@@ -1,4 +1,7 @@
-import 'package:flutter/material.dart'; // importa o pacote principal do Flutter
+import 'package:flutter/material.dart';
+
+import '../../routes/routes.dart';
+import '../../widgets/colors.dart'; // importa o pacote principal do Flutter
 
 // Essa é a tela de perguntas frequentes (FAQ)
 class QuestionsScreen extends StatelessWidget {
@@ -9,7 +12,18 @@ class QuestionsScreen extends StatelessWidget {
     // Scaffold é a estrutura base da tela (tem appbar, body, etc)
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Perguntas Frequentes'), // título que aparece no topo da tela
+        elevation: 0,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.pop(context);
+          }, 
+          icon: Icon(Icons.arrow_back_rounded, color: Colors.white,),),
+        backgroundColor: Palette.appBarColor,
+        title: const Text('Perguntas Frequentes', style: TextStyle(
+          color: Palette.whiteColor, 
+          fontWeight: FontWeight.bold,
+          fontSize: 24,),), // título que aparece no topo da tela
+        centerTitle: true
       ),
 
       // O corpo da tela é uma lista rolável de perguntas e respostas

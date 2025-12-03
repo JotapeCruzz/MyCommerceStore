@@ -14,13 +14,14 @@ class ListaEnderecosPage extends StatelessWidget {
 
     return Scaffold(
      appBar: AppBar(
+      elevation: 0,
         leading: IconButton(
           onPressed: (){
-            Navigator.pushReplacementNamed(context, Routes.home);
+            Navigator.popAndPushNamed(context, Routes.editAdress);
           }, 
-          icon: Icon(Icons.arrow_back_rounded)),
+          icon: Icon(Icons.arrow_back_rounded, color: Colors.white,),),
         backgroundColor: Palette.appBarColor,
-        title: Text('Meus Endereços'),
+        title: Text('Meus Endereços', style: TextStyle(color: Palette.whiteColor, fontWeight: FontWeight.bold, fontSize: 24,),),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
