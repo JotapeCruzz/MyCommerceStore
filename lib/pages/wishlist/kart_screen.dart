@@ -165,7 +165,7 @@ class CartScreen extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   decoration: BoxDecoration(
-                    color: Palette.appBarColor.withOpacity(0.1),
+                    color: Palette.appBarColor,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: Palette.appBarColor, width: 1.5),
                   ),

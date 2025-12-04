@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:ecommerce_my_store/providers/cart_provider.dart';
 
 import '../../../../widgets/colors.dart';
+import '../../../../widgets/snackbar.dart';
 
 class AddToCart extends StatelessWidget {
   final ProdutoModel product;
@@ -35,10 +36,7 @@ class AddToCart extends StatelessWidget {
             product.img.isNotEmpty ? product.img : '',
             quantity: quantity,
           );
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Produto adicionado ao carrinho!')),
-          );
+          showSnack(context: context, message: 'Produto adicionado ao carrinho!',);
         },
         icon: Icon(Icons.add_shopping_cart_rounded, color: Palette.appBarColor),
       ),

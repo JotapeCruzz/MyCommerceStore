@@ -7,9 +7,6 @@ import 'firebase_options.dart';
 import 'package:ecommerce_my_store/providers/cart_provider.dart';
 import 'package:ecommerce_my_store/providers/favorites_provider.dart';  
 
-// Services
-import 'package:ecommerce_my_store/services/favorites_service.dart';  
-
 // App principal
 import 'app.dart';
 
@@ -20,19 +17,23 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CartProvider()),
-        
-      
         ChangeNotifierProvider(
-          create: (_) => FavoritesProvider(FavoritesService()),
+          create: (_) {
+            final provider = CartProvider();
+            provider.loadPersistedCart(); 
+            return provider;
+          },
         ),
 
-        // se tiver outros providers, coloque aqui
+        ChangeNotifierProvider(
+          create: (_) {
+            final provider = FavoritesProvider();
+            provider.loadPersistedFavorites();  
+            return provider;
+          },
+        ),
       ],
       child: MainApp(),
     ),
   );
 }
-
-
-

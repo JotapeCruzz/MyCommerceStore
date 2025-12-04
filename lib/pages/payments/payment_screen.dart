@@ -81,7 +81,7 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.arrow_back_rounded),
+          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white,),
         ),
         title: const Text(
           'Pagamento',
@@ -107,7 +107,7 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 decoration: BoxDecoration(
-                  color: Palette.appBarColor.withOpacity(0.1),
+                  color: Palette.appBarColor,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Palette.appBarColor, width: 1.5),
                 ),
@@ -143,7 +143,7 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
+                      color: Colors.grey,
                       spreadRadius: 2,
                       blurRadius: 5,
                       offset: const Offset(0, 2),
@@ -204,7 +204,7 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
                 decoration: BoxDecoration(
-                  color: Palette.appBarColor.withOpacity(0.1),
+                  color: Palette.appBarColor,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Palette.appBarColor, width: 1.5),
                 ),
@@ -239,7 +239,7 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
                 child: ElevatedButton(
                   onPressed: () => Navigator.of(context).pop(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.withOpacity(0.2),
+                    backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                       side: const BorderSide(color: Colors.red, width: 2),

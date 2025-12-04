@@ -3,11 +3,14 @@ import 'package:ecommerce_my_store/data/models/product_model.dart';
 import 'package:ecommerce_my_store/data/repositories/product_repository.dart';
 import 'package:ecommerce_my_store/pages/home/details/components/product_title.dart';
 import 'package:ecommerce_my_store/pages/stores/product_store.dart';
+import 'package:ecommerce_my_store/providers/cart_provider.dart';
 import 'package:ecommerce_my_store/widgets/colors.dart';
 import 'package:ecommerce_my_store/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../providers/favorites_provider.dart';
 import '../../../../routes/routes.dart';
 import 'add_cart.dart';
 import 'btn_buy_now.dart';
@@ -25,7 +28,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
   final user = FirebaseAuth.instance.currentUser!;
   final ProductStore store = ProductStore(
     repository: ProductRepository(client: HttpClient()),
@@ -87,9 +89,9 @@ class _BodyState extends State<Body> {
                       child: Column(
                         children: <Widget>[
                           ColorAndSize(),
-                          SizedBox(height: 20 / 2,),
+                          SizedBox(height: 20 / 2),
                           Description(product: product),
-                          SizedBox(height: 20 / 2,),
+                          SizedBox(height: 20 / 2),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -101,8 +103,18 @@ class _BodyState extends State<Body> {
                               //Botão de Favoritos --- Implementar funcionalidade para a tela
                               GestureDetector(
                                 onTap: () {
-                                  showSnack(context: context, message: widget.productId.toString());
-                                  showSnack(context: context, message: user.displayName.toString());
+                                  final fav = Provider.of<FavoritesProvider>(context, listen: false);
+                                  fav.addFavorite(
+                                    product.id.toString(),
+                                    product.title,
+                                    product.price,
+                                    product.img.isNotEmpty ? product.img : '',
+
+                                  );
+                                  showSnack(
+                                    context: context,
+                                    message: 'Produto adicionado aos favoritos!',
+                                  );
                                 },
                                 child: Container(
                                   height: 32,
@@ -119,7 +131,7 @@ class _BodyState extends State<Body> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20 / 2,),
+                          SizedBox(height: 20 / 2),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 20),
                             child: Row(
@@ -128,7 +140,7 @@ class _BodyState extends State<Body> {
                                   product: product,
                                   quantity: selectedQuantity,
                                 ),
-                                BtnBuyNow(product: product,),
+                                BtnBuyNow(product: product),
                               ],
                             ),
                           ),
@@ -146,4 +158,3 @@ class _BodyState extends State<Body> {
     );
   }
 }
-

@@ -1,80 +1,135 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import '../../providers/favorites_provider.dart';
 
-class FavoritesScreen extends StatefulWidget {
+import 'package:ecommerce_my_store/widgets/bottom_navbar.dart';
+import 'package:ecommerce_my_store/widgets/custom_drawer.dart';
+
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/favorites_provider.dart';
+import '../../routes/routes.dart';
+
+
+import 'package:firebase_auth/firebase_auth.dart';
+
+
+import 'package:ecommerce_my_store/widgets/colors.dart';
+
+
+/// ===============================================================
+///                     TELA DO CARRINHO
+/// ===============================================================
+class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
 
   @override
-  _FavoritesScreenState createState() => _FavoritesScreenState();
-}
-
-class _FavoritesScreenState extends State<FavoritesScreen> {
-  List<Map<String, dynamic>> products = [];
-  bool loading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadProducts();
-  }
-
-  Future<void> _loadProducts() async {
-    final fav = Provider.of<FavoritesProvider>(context, listen: false);
-    final ids = fav.favoriteIds;
-
-    List<Map<String, dynamic>> fetched = [];
-
-    for (final id in ids) {
-      final res = await http.get(Uri.parse("https://fakestoreapi.com/products/$id"));
-      if (res.statusCode == 200) {
-        fetched.add(jsonDecode(res.body));
-      }
-    }
-
-    setState(() {
-      products = fetched;
-      loading = false;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final fav = Provider.of<FavoritesProvider>(context);
+    // Provider escutando mudanças do carrinho.
+    // Sempre que cart for alterado, a tela reconstruirá automaticamente.
+    //
+    final fav = context.watch<FavoritesProvider>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Favoritos')),
-      body: loading
-          ? const Center(child: CircularProgressIndicator())
-          : products.isEmpty
-              ? const Center(child: Text('Nenhum favorito'))
-              : ListView.builder(
-                  itemCount: products.length,
-                  itemBuilder: (_, i) {
-                    final p = products[i];
-                    return ListTile(
-                      title: Text(p['title']),
-                      subtitle: Text("\$${p['price']}"),
-                      trailing: IconButton(
-                        icon: Icon(
-                          fav.isFavorite(p['id'].toString())
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: Colors.red,
+      backgroundColor: Colors.white,
+
+      /// ===================== APPBAR ===========================
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            // Volta para Home substituindo a rota atual.
+            // pushReplacement evita voltar ao carrinho pressionando "voltar".
+            Navigator.popAndPushNamed(context, Routes.home);
+          },
+          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+        ),
+        backgroundColor: Palette.appBarColor,
+        title: const Text(
+          'Favoritos',
+          style: TextStyle(
+            color: Palette.whiteColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
+        centerTitle: true,
+      ),
+
+      /// ===================== BODY ===========================
+      body: Column(
+        children: [
+          /// LISTA DOS ITENS DO CARRINHO
+          Expanded(
+            child: fav.items.isEmpty
+                ? const Center(
+                    child: Text('Sua lista de favoritos está vazia'),
+                  )
+
+                /// LISTA DINÂMICA
+                : ListView.builder(
+                    padding: const EdgeInsets.all(12),
+                    itemCount: fav.items.length,
+                    itemBuilder: (context, i) {
+                      final item = fav.items[i];
+
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        child: ListTile(
+                          /// IMAGEM DO PRODUTO
+                          leading: item.imageUrl.isNotEmpty
+                              ? Image.network(
+                                  item.imageUrl,
+                                  width: 56,
+                                  height: 56,
+                                  fit: BoxFit.contain,
+                                )
+                              : const SizedBox(width: 56, height: 56),
+
+                          /// TÍTULO DO PRODUTO
+                          title: Text(item.title),
+
+                          /// PREÇO DO PRODUTO
+                          subtitle: Text(
+                            'R\$ ${item.price.toStringAsFixed(2)}',
+                          ),
+
+                          /// AÇÕES DO ITEM
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              /// REMOVER ITEM
+                              IconButton(
+                                icon: const Icon(Icons.delete_outline_rounded),
+                                onPressed: () {
+                                  context.read<FavoritesProvider>().removeFavorite(
+                                        item.id,
+                                      );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                        onPressed: () {
-                          fav.toggleFavorite(p['id'].toString());
-                          _loadProducts();
-                        },
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  ),
+          ),     
+          const SizedBox(height: 12),
+        ],
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: 1,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, Routes.home);
+              break;
+            case 1:
+              break;
+            case 2:
+              Navigator.pushReplacementNamed(context, Routes.perfilPage);
+              break;
+          }
+        },
+      ),
     );
   }
 }
-
-
-
