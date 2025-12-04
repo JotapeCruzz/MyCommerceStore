@@ -25,6 +25,7 @@ import 'package:ecommerce_my_store/pages/profile/profile_screen.dart';
 import 'package:ecommerce_my_store/pages/payments/listcard_screen.dart';
 import 'package:ecommerce_my_store/pages/profile/listadress_screen.dart';
 
+
 // Classe responsável por centralizar e gerenciar todas as rotas do aplicativo.
 // Isso ajuda a manter a navegação organizada e fácil de manter.
 class Routes {
@@ -60,7 +61,6 @@ class Routes {
     cart: (context) => const CartScreen(),
     pagamento: (context) => const PagamentoScreen(),
     faq: (context) => const QuestionsScreen(),
-    //favorites: (context) => const FavoritosPage(),
     rooter: (context) =>const AuthGate(),
     editPayment: (context) => const EditarPagamentoPage(),
     editAdress: (context) => const EditarEnderecoPage(),
@@ -69,5 +69,6 @@ class Routes {
     perfilPage: (context) => PerfilPage(user: FirebaseAuth.instance.currentUser!),
     listCard: (context) => const ListaCartoesPage(),
     listAdress: (context) => const ListaEnderecosPage(),
+    favorites: (context) => const FavoritesScreen(),
   };
 }

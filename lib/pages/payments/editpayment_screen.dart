@@ -26,6 +26,7 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
   final numeroController = TextEditingController();
   final nomeController = TextEditingController();
   final validadeController = TextEditingController();
+  final cvvController = TextEditingController(); // NOVO
 
   // Máscaras
   final maskNumeroCartao = MaskTextInputFormatter(
@@ -38,6 +39,11 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
     filter: {"#": RegExp(r'[0-9]')},
   );
 
+  final maskCVV = MaskTextInputFormatter( // NOVO
+    mask: '###',
+    filter: {"#": RegExp(r'[0-9]')},
+  );
+
   @override
   void initState() {
     super.initState();
@@ -46,12 +52,15 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
       numeroController.text = widget.cardData!["numero"] ?? "";
       nomeController.text = widget.cardData!["nome"] ?? "";
       validadeController.text = widget.cardData!["validade"] ?? "";
+      cvvController.text = widget.cardData!["cvv"] ?? ""; // NOVO
 
-      // Atualiza as máscaras caso já tenha valor
+      // Re-aplica as máscaras
       maskNumeroCartao.formatEditUpdate(
           TextEditingValue.empty, TextEditingValue(text: numeroController.text));
       maskValidade.formatEditUpdate(
           TextEditingValue.empty, TextEditingValue(text: validadeController.text));
+      maskCVV.formatEditUpdate( // NOVO
+          TextEditingValue.empty, TextEditingValue(text: cvvController.text));
     }
   }
 
@@ -60,7 +69,8 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
 
     if (numeroController.text.trim().length < 19 ||
         nomeController.text.trim().isEmpty ||
-        validadeController.text.trim().length < 5) {
+        validadeController.text.trim().length < 5 ||
+        cvvController.text.trim().length < 3) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Preencha todos os campos corretamente")),
       );
@@ -71,6 +81,7 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
       "numero": numeroController.text.trim(),
       "nome": nomeController.text.trim(),
       "validade": validadeController.text.trim(),
+      "cvv": cvvController.text.trim(), // NOVO
     };
 
     final ref = FirebaseFirestore.instance
@@ -122,19 +133,23 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
       appBar: AppBar(
-        title: Text(widget.cardId == null ? "Adicionar Cartão" : "Editar Cartão", style: TextStyle(
-          color: Palette.whiteColor, 
-          fontWeight: FontWeight.bold, 
-          fontSize: 24,),),
+        title: Text(
+          widget.cardId == null ? "Adicionar Cartão" : "Editar Cartão",
+          style: TextStyle(
+            color: Palette.whiteColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
         backgroundColor: Palette.appBarColor,
         elevation: 0,
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.popAndPushNamed(context, Routes.perfilPage);
-          }, 
-          icon: Icon(Icons.arrow_back_rounded, color: Colors.white,),
+          },
+          icon: Icon(Icons.arrow_back_rounded, color: Colors.white),
         ),
-        centerTitle: true
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -168,6 +183,16 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
               teclado: TextInputType.number,
               max: 5,
               inputFormatters: [maskValidade],
+            ),
+            const SizedBox(height: 15),
+
+            // NOVO CAMPO - CVV
+            _campoML(
+              "CVV",
+              cvvController,
+              teclado: TextInputType.number,
+              max: 3,
+              inputFormatters: [maskCVV],
             ),
             const SizedBox(height: 30),
 
@@ -213,6 +238,7 @@ class _EditarPagamentoPageState extends State<EditarPagamentoPage> {
     );
   }
 }
+
 
 
 

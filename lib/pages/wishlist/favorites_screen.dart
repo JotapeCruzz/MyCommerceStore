@@ -1,76 +1,80 @@
-// import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import '../../providers/favorites_provider.dart';
 
-// class FavoritosPage extends StatefulWidget {
-//   const FavoritosPage({super.key});
+class FavoritesScreen extends StatefulWidget {
+  const FavoritesScreen({super.key});
+
+  @override
+  _FavoritesScreenState createState() => _FavoritesScreenState();
+}
+
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  List<Map<String, dynamic>> products = [];
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProducts();
+  }
+
+  Future<void> _loadProducts() async {
+    final fav = Provider.of<FavoritesProvider>(context, listen: false);
+    final ids = fav.favoriteIds;
+
+    List<Map<String, dynamic>> fetched = [];
+
+    for (final id in ids) {
+      final res = await http.get(Uri.parse("https://fakestoreapi.com/products/$id"));
+      if (res.statusCode == 200) {
+        fetched.add(jsonDecode(res.body));
+      }
+    }
+
+    setState(() {
+      products = fetched;
+      loading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final fav = Provider.of<FavoritesProvider>(context);
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Favoritos')),
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : products.isEmpty
+              ? const Center(child: Text('Nenhum favorito'))
+              : ListView.builder(
+                  itemCount: products.length,
+                  itemBuilder: (_, i) {
+                    final p = products[i];
+                    return ListTile(
+                      title: Text(p['title']),
+                      subtitle: Text("\$${p['price']}"),
+                      trailing: IconButton(
+                        icon: Icon(
+                          fav.isFavorite(p['id'].toString())
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          fav.toggleFavorite(p['id'].toString());
+                          _loadProducts();
+                        },
+                      ),
+                    );
+                  },
+                ),
+    );
+  }
+}
 
 
-//   State<FavoritosPage> createState() => _FavoritosPageState();
-// }
-
-// class _FavoritosPageState extends State<FavoritosPage> {
-//   List<Map<String, dynamic>> favoritos = [];
-
-//   @override
-//   Future<void> carregarFavoritos() async {
-//     final snapshot = await FirebaseFirestore.instance.collection('favoritos').get();
-//     setState(() {
-//       favoritos = snapshot.docs.map((d) => d.data()).toList();
-//     });
-//   }
-
-//   Future<void> adicionarFavorito(Map<String, dynamic> item) async {
-//     await FirebaseFirestore.instance.collection('favoritos').add(item);
-//     carregarFavoritos();
-//   }
-
-//   Future<List<dynamic>> buscarFakeStore() async {
-//     final res = await http.get(Uri.parse('https://fakestoreapi.com/products'));
-//     return jsonDecode(res.body);
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     carregarFavoritos();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Favoritos'),
-//       ),
-//       body: favoritos.isEmpty
-//           ? const Center(
-//               child: Text(
-//                 'Nenhum item favoritado ainda',
-//                 style: TextStyle(fontSize: 16),
-//               ),
-//             )
-//           : ListView.builder(
-//               itemCount: favoritos.length,
-//               itemBuilder: (context, index) {
-//                 final item = favoritos[index];
-//                 return Card(
-//                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-//                   child: ListTile(
-//                     title: Text(item['title']?.toString() ?? 'Sem título'),
-//                     trailing: IconButton(
-//                       icon: const Icon(Icons.delete, color: Colors.red),
-//                       onPressed: () {
-//                         setState(() {
-//                           favoritos.removeAt(index);
-//                         });
-//                       },
-//                     ),
-//                   ),
-//                 );
-//               },
-//             ),
-//     );
-//   }
-// }
 

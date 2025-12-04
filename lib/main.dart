@@ -3,10 +3,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart'; 
 import 'firebase_options.dart';
 
-// Importa seu provider
+// Providers
 import 'package:ecommerce_my_store/providers/cart_provider.dart';
+import 'package:ecommerce_my_store/providers/favorites_provider.dart';  
 
-// Importa seu app principal
+// Services
+import 'package:ecommerce_my_store/services/favorites_service.dart';  
+
+// App principal
 import 'app.dart';
 
 void main() async {
@@ -17,11 +21,18 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CartProvider()),
-        // se tiver outros providers, adicione aqui
+        
+      
+        ChangeNotifierProvider(
+          create: (_) => FavoritesProvider(FavoritesService()),
+        ),
+
+        // se tiver outros providers, coloque aqui
       ],
       child: MainApp(),
     ),
   );
 }
+
 
 
