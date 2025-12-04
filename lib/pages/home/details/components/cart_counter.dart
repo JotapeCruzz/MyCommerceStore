@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CartCounter extends StatefulWidget {
-  const CartCounter({super.key});
+  final ValueChanged<int>? onQuantityChanged;
+
+  const CartCounter({
+    super.key,
+    this.onQuantityChanged,
+  });
 
   @override
   State<CartCounter> createState() => _CartCounterState();
@@ -19,6 +24,7 @@ class _CartCounterState extends State<CartCounter> {
             if (numofItems > 1) {
               setState(() {
                 numofItems--;
+                widget.onQuantityChanged?.call(numofItems);
               });
             }
           },
@@ -34,6 +40,7 @@ class _CartCounterState extends State<CartCounter> {
           press: () {
             setState(() {
               numofItems++;
+              widget.onQuantityChanged?.call(numofItems);
             });
           },
         ),
@@ -58,3 +65,4 @@ class _CartCounterState extends State<CartCounter> {
     );
   }
 }
+

@@ -30,6 +30,7 @@ class _BodyState extends State<Body> {
   final ProductStore store = ProductStore(
     repository: ProductRepository(client: HttpClient()),
   );
+  int selectedQuantity = 1;
 
   @override
   void initState() {
@@ -92,7 +93,11 @@ class _BodyState extends State<Body> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CartCounter(),
+                              CartCounter(
+                                onQuantityChanged: (quantity) {
+                                  setState(() => selectedQuantity = quantity);
+                                },
+                              ),
                               //Botão de Favoritos --- Implementar funcionalidade para a tela
                               GestureDetector(
                                 onTap: () {
@@ -119,7 +124,10 @@ class _BodyState extends State<Body> {
                             padding: const EdgeInsets.symmetric(vertical: 20),
                             child: Row(
                               children: <Widget>[
-                                AddToCart(product: product,),
+                                AddToCart(
+                                  product: product,
+                                  quantity: selectedQuantity,
+                                ),
                                 BtnBuyNow(product: product,),
                               ],
                             ),

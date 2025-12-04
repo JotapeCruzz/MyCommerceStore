@@ -64,7 +64,7 @@ class CartProvider with ChangeNotifier {
   }
 
   // Método que adiciona um novo item ao carrinho.
-  void addItem(String title, double price, String imageUrl) {
+  void addItem(String title, double price, String imageUrl, {int quantity = 1}) {
     // Caso já exista um item com o mesmo título, apenas incrementa a quantidade
     final existingIndex = _items.indexWhere((p) => p.title == title);
     if (existingIndex >= 0) {
@@ -74,7 +74,7 @@ class CartProvider with ChangeNotifier {
         title: existing.title,
         price: existing.price,
         imageUrl: existing.imageUrl,
-        quantity: existing.quantity + 1,
+        quantity: existing.quantity + quantity,
       );
     } else {
       _items.add(
@@ -83,7 +83,7 @@ class CartProvider with ChangeNotifier {
           title: title,
           price: price,
           imageUrl: imageUrl,
-          quantity: 1,
+          quantity: quantity,
         ),
       );
     }

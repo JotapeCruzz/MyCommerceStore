@@ -7,7 +7,13 @@ import '../../../../widgets/colors.dart';
 
 class AddToCart extends StatelessWidget {
   final ProdutoModel product;
-  const AddToCart({super.key, required this.product});
+  final int quantity;
+
+  const AddToCart({
+    super.key,
+    required this.product,
+    this.quantity = 1,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +29,12 @@ class AddToCart extends StatelessWidget {
         onPressed: () {
           // Adicionar ao carrinho com Provider
           final cart = Provider.of<CartProvider>(context, listen: false);
-          cart.addItem(product.title, product.price, product.img.isNotEmpty ? product.img : '');
+          cart.addItem(
+            product.title,
+            product.price,
+            product.img.isNotEmpty ? product.img : '',
+            quantity: quantity,
+          );
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Produto adicionado ao carrinho!')),
