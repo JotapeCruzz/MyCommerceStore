@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:ecommerce_my_store/widgets/colors.dart';
+import 'package:ecommerce_my_store/routes/routes.dart';
 import '../../providers/cart_provider.dart'; // Importa o provider do carrinho.
 
 // Tela de pagamento usando StatefulWidget para manipular timer e estado.
@@ -75,47 +77,22 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
       backgroundColor: Colors.white,
 
       // AppBar customizada.
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: AppBar(
-          backgroundColor: const Color(0xFF574D4F),
-          automaticallyImplyLeading: false,
-          flexibleSpace: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-              child: Row(
-                children: [
-                  // Botão para voltar à tela anterior.
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-
-                  const SizedBox(width: 8),
-
-                  // Título centralizado.
-                  const Expanded(
-                    child: Text(
-                      'Pagamento',
-                      style: TextStyle(
-                        color: Colors.white, 
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-
-                  // Logo exibida no canto direito.
-                  Image.asset(
-                    'assets/images/e_logo.png',
-                    height: 40,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          elevation: 0,
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back_rounded),
         ),
+        title: const Text(
+          'Pagamento',
+          style: TextStyle(
+            color: Palette.whiteColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
+        backgroundColor: Palette.appBarColor,
+        centerTitle: true,
       ),
 
       // Corpo da tela com rolagem.
@@ -128,10 +105,11 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
               // Caixa que exibe o valor total da compra.
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFF7D9),
-                  borderRadius: BorderRadius.circular(6),
+                  color: Palette.appBarColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Palette.appBarColor, width: 1.5),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,6 +119,7 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 18,
+                        color: Palette.gradient3,
                       ),
                     ),
                     Text(
@@ -148,6 +127,7 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 18,
+                        color: Palette.appBarColor,
                       ),
                     ),
                   ],
@@ -157,11 +137,26 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
               const SizedBox(height: 30),
 
               // QR Code gerado a partir do link de pagamento.
-              QrImageView(
-                data: linkPagamento,
-                size: 200,
-                version: QrVersions.auto,
-                backgroundColor: Colors.white,
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(16),
+                child: QrImageView(
+                  data: linkPagamento,
+                  size: 200,
+                  version: QrVersions.auto,
+                  backgroundColor: Colors.white,
+                ),
               ),
 
               const SizedBox(height: 30),
@@ -169,10 +164,10 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
               // Botão para copiar o código PIX.
               Container(
                 width: double.infinity,
-                height: 46,
+                height: 50,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFF7D9),
-                  borderRadius: BorderRadius.circular(6),
+                  color: Palette.appBarColor,
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: InkWell(
                   onTap: () {
@@ -192,10 +187,11 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
+                          color: Colors.white,
                         ),
                       ),
                       SizedBox(width: 8),
-                      Icon(Icons.copy, size: 20),
+                      Icon(Icons.copy, size: 20, color: Colors.white),
                     ],
                   ),
                 ),
@@ -203,28 +199,38 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
 
               const SizedBox(height: 30),
 
-              // Exibe o tempo restante em destaque.
-              Text(
-                formatTime(remainingSeconds),
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF574D4F),
+              // Container com timer
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Palette.appBarColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Palette.appBarColor, width: 1.5),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      formatTime(remainingSeconds),
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Palette.appBarColor,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Tempo restante para pagamento',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Palette.gradient3,
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
-              const SizedBox(height: 8),
-
-              // Texto abaixo do timer.
-              const Text(
-                'Tempo restante para pagamento',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFF574D4F),
-                ),
-              ),
-
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
 
               // Botão para cancelar o pagamento.
               SizedBox(
@@ -233,15 +239,16 @@ class _PagamentoScreenState extends State<PagamentoScreen> {
                 child: ElevatedButton(
                   onPressed: () => Navigator.of(context).pop(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFC9C9),
+                    backgroundColor: Colors.red.withOpacity(0.2),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(8),
+                      side: const BorderSide(color: Colors.red, width: 2),
                     ),
                   ),
                   child: const Text(
                     'Cancelar Pagamento',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.red,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
