@@ -39,16 +39,24 @@ class CartScreen extends StatelessWidget {
 
       /// ===================== APPBAR ===========================
       appBar: AppBar(
+        elevation: 0,
         leading: IconButton(
           onPressed: () {
             // Volta para Home substituindo a rota atual.
             // pushReplacement evita voltar ao carrinho pressionando "voltar".
             Navigator.pushReplacementNamed(context, Routes.home);
           },
-          icon: const Icon(Icons.arrow_back_rounded),
+          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
         ),
         backgroundColor: Palette.appBarColor,
-        title: const Text('Carrinho'),
+        title: const Text(
+          'Carrinho',
+          style: TextStyle(
+            color: Palette.whiteColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
         centerTitle: true,
       ),
 
@@ -148,47 +156,54 @@ class CartScreen extends StatelessWidget {
           /// =============== RODAPÉ: TOTAL + PAGAR =================
           Container(
             color: Colors.white,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 /// TOTAL DO CARRINHO
-                ///
-                /// DICA (4.2 Reatividade):
-                /// cart.total é recalculado sempre que cart.items muda.
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Total',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Palette.appBarColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Palette.appBarColor, width: 1.5),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Total',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Palette.gradient3,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'R\$ ${cart.total.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      Text(
+                        'R\$ ${cart.total.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Palette.appBarColor,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 12),
 
                 /// BOTÃO PAGAR
-                ///
-                /// DICA (4.1 Navegação):
-                /// pushNamed envia para uma rota registrada em routes.dart.
-                ///
                 SizedBox(
                   width: double.infinity,
+                  height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFA9CBF9),
+                      backgroundColor: Palette.appBarColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
 
                     /// Desabilita o botão se não houver itens
@@ -197,14 +212,16 @@ class CartScreen extends StatelessWidget {
                         : () {
                             Navigator.of(context).pushNamed(
                               Routes.pagamento,
-                              // DICA: professor pode pedir isso ↓
-                              // arguments: cart.total,
                             );
                           },
 
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      child: Text('Pagar'),
+                    child: const Text(
+                      'Pagar',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
