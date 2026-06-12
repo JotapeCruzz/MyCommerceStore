@@ -113,5 +113,3 @@ flutter run
 ```
 
 ---
-
-If you'd like, I can add **badges**, **screenshots**, or a more detailed technical section.
